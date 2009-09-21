@@ -1,0 +1,94 @@
+INCLUDES = -I${top_srcdir} -I${top_srcdir}/include
+
+lib_LTLIBRARIES=libnm-util.la
+
+libnm_util_la_CPPFLAGS = \
+	$(GLIB_CFLAGS) \
+	$(DBUS_CFLAGS) \
+	$(UUID_CFLAGS) \
+	-DDBUS_API_SUBJECT_TO_CHANGE \
+	-DG_DISABLE_DEPRECATED
+
+libnm_util_include_HEADERS = 		\
+	nm-connection.h			\
+	nm-setting.h			\
+	nm-setting-8021x.h		\
+	nm-setting-connection.h		\
+	nm-setting-ip4-config.h		\
+	nm-setting-ppp.h		\
+	nm-setting-pppoe.h		\
+	nm-setting-serial.h		\
+	nm-setting-gsm.h		\
+	nm-setting-cdma.h		\
+	nm-setting-wired.h		\
+	nm-setting-wireless.h		\
+	nm-setting-wireless-security.h	\
+	nm-setting-vpn.h		\
+	nm-utils.h
+
+libnm_util_la_SOURCES=			\
+	crypto.c			\
+	crypto.h			\
+	nm-connection.c			\
+	nm-param-spec-specialized.c	\
+	nm-param-spec-specialized.h \
+	nm-setting.c			\
+	nm-setting-8021x.c		\
+	nm-setting-connection.c		\
+	nm-setting-ip4-config.c		\
+	nm-setting-ip6-config.c		\
+	nm-setting-ppp.c		\
+	nm-setting-pppoe.c		\
+	nm-setting-serial.c		\
+	nm-setting-gsm.c		\
+	nm-setting-cdma.c		\
+	nm-setting-wired.c		\
+	nm-setting-wireless.c		\
+	nm-setting-wireless-security.c	\
+	nm-setting-vpn.c		\
+	nm-utils.c			\
+	$(libnm_util_include_HEADERS)
+
+libnm_util_la_LIBADD = $(GLIB_LIBS) $(DBUS_LIBS) $(UUID_LIBS)
+
+libnm_util_la_LDFLAGS = -Wl,--version-script=$(srcdir)/libnm-util.ver
+
+if WITH_GNUTLS
+libnm_util_la_SOURCES += crypto_gnutls.c
+libnm_util_la_CPPFLAGS += $(LIBGCRYPT_CFLAGS) $(GNUTLS_CFLAGS)
+libnm_util_la_LIBADD += $(LIBGCRYPT_LIBS) $(GNUTLS_LIBS)
+endif
+
+if WITH_NSS
+libnm_util_la_SOURCES += crypto_nss.c
+libnm_util_la_CPPFLAGS += $(NSS_CFLAGS)
+libnm_util_la_LIBADD += $(NSS_LIBS)
+endif
+
+libnm_util_includedir=$(includedir)/NetworkManager
+
+noinst_PROGRAMS = test-crypto
+
+test_crypto_SOURCES = test-crypto.c crypto.c
+test_crypto_CPPFLAGS = $(GLIB_CFLAGS) -D_GNU_SOURCE
+test_crypto_LDADD = $(GLIB_LIBS) libnm-util.la
+
+if WITH_GNUTLS
+test_crypto_SOURCES += crypto_gnutls.c
+test_crypto_CPPFLAGS += $(LIBGCRYPT_CFLAGS) $(GNUTLS_CFLAGS)
+test_crypto_LDADD += $(LIBGCRYPT_LIBS) $(GNUTLS_LIBS)
+endif
+
+if WITH_NSS
+test_crypto_SOURCES += crypto_nss.c
+test_crypto_CPPFLAGS += $(NSS_CFLAGS)
+test_crypto_LDADD += $(NSS_LIBS)
+endif
+
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = libnm-util.pc
+
+DISTCLEANFILES = libnm-util.pc
+
+EXTRA_DIST = libnm-util.pc.in libnm-util.ver nm-setting-ip6-config.h
+
