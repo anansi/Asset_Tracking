@@ -111,8 +111,6 @@ PICFLAG=-fPIC
 
 # Standard compilation targets
 all:: $(IWLIB) $(PROGS)
-	echo $(IWLIB)
-	echo $(PROGS)
 %: %.o
 	$(CC) $(LDFLAGS) $(STRIPFLAGS) $(XCFLAGS) -o $@ $^ $(LIBS)
 %.o: %.c wireless.h

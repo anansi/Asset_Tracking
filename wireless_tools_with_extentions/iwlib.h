@@ -356,6 +356,7 @@ void
 	iw_print_txpower(char *			buffer,
 			 int			buflen,
 			 struct iw_param *	txpower);
+			 
 /* -------------------- STATISTICS SUBROUTINES -------------------- */
 int
 	iw_get_stats(int		skfd,
@@ -363,12 +364,22 @@ int
 		     iwstats *		stats,
 		     const iwrange *	range,
 		     int		has_range);
+				 
 void
-	iw_print_stats(char *		buffer,
-		       int		buflen,
-		       const iwqual *	qual,
-		       const iwrange *	range,
-		       int		has_range);
+iw_print_stats(char *		buffer,
+								int		buflen,
+								const iwqual *	qual,
+								const iwrange *	range,
+								int		has_range);		
+								
+void
+iw_print_and_track_stats(char *		buffer,
+								int		buflen,
+								const iwqual *	qual,
+								const iwrange *	range,
+								int		has_range,
+								int ap_num);
+								
 /* --------------------- ENCODING SUBROUTINES --------------------- */
 void
 	iw_print_key(char *			buffer,
@@ -594,22 +605,37 @@ iw_ether_cmp(const struct ether_addr* eth1, const struct ether_addr* eth2)
 }
 /* Julz's extensions :D */
 ///file io
-FILE *fp;
+#define MAX_ROUTERS 50
+#define WINDOW_SIZE 100
+FILE *fp [MAX_ROUTERS];
 
+struct router	{
+	char mac [150] ;
+	char essid [30];	
+	int xCo, yCo;
+	//bool wanted; ///indicates that the router is not a stray router found in reception radius
+	struct iw_quality current_signal;
+} router_address_map[MAX_ROUTERS];
 ///
-double getDistanceOfSignal();
-timeval curTimeUnit;
+
+int no_routers;///the number of routers that will be used in the experiment
+
+double distance (double Pr, double Pt, double Gt, double Gr, double delta);
+
+struct timeval curTimeUnit;
 struct location_time_stats {
-	struct timeval *		time; ///time of sampling
-	//long point_in_time; 
-	iw_quality router[10]; ///router signal levels at point in time
-	//int levels[10]; 
-};
+	struct timeval time; ///time of sampling
+	struct iw_quality router[MAX_ROUTERS]; ///router signal levels at point in time
+	union iwreq_data record;
+	};
+
+int num_aps;
+int num_timeUnits;
 struct location_tracking	{
-	location_time_stats sliding_window[100];
+	struct location_time_stats sliding_window[WINDOW_SIZE];
 	int curPos;
 };
-location_tracking window;
+struct location_tracking window;
 
 /*end of Julz's extensions*/
 #ifdef __cplusplus

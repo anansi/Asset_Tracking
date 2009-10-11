@@ -456,38 +456,67 @@ print_scanning_token(struct stream_descr *	stream,	/* Stream of events */
 		     int		has_range)
 {
   char		buffer[128];	/* Temporary buffer */
-  
+	
+	struct timeval startTime;
+	gettimeofday(&startTime,NULL);
+	
 switch(event->cmd)
 {
 	case SIOCGIWAP:///which cell:
-		printf("          \nCell %02d - Address: %s ", state->ap_num,
-		iw_saether_ntop(&event->u.ap_addr, buffer));
+		;
 		
-		//printf("size of cellno: %d, sizeof tmp : %d",sizeof(cellNo),sizeof(tmp));
-		fprintf(fp, "%d,%s,", state->ap_num,iw_saether_ntop(&event->u.ap_addr, buffer));
-		//fwrite(cellNo, sizeof(cellNo[0]), 1, fp);
-		//fwrite(x , sizeof(x[0]) , 5 , fp);
+		gettimeofday(&startTime,NULL);		
+		struct router tmp;
+		iw_saether_ntop(&event->u.ap_addr, tmp.mac);
 		
+		printf("          Cell %02d - Address: %s\n", state->ap_num,
+											tmp.mac);
+
+		///map routers to table
+		///1: check if router is part of the experiment, or just a stray
+		int i = 0;
 		
+		for (i = 0 ; i < no_routers; i++ )
+		{
+			
+			if (strcmp(router_address_map[i].mac, tmp.mac) == 0)
+			{
+				printf("found %s in routeraddressmap\n",router_address_map[i].essid);
+				///open the file pointer for this router
+				char out_filename [34];
+				sprintf(out_filename, "../output/output_for_router_%d.csv" , i);
+				if (fp[i] == NULL)
+					fp[i] = fopen(out_filename, "w");
+				///and write in the router details
+				fprintf(fp[i], "%d,%s,", state->ap_num,iw_saether_ntop(&event->u.ap_addr, buffer));				
+				
+				num_aps = i;
+				break;
+			}
+			
+		}
 		state->ap_num++;
-		
 		break;
 	case IWEVQUAL:///quality event
-		iw_print_stats(buffer, sizeof(buffer),
-		&event->u.qual, iw_range, has_range);
-		printf(" %s", buffer);
+		;
 		
+		gettimeofday(&startTime,NULL);
+		printf ("\n\nin qual event%d %d\n",startTime.tv_sec,startTime.tv_usec);  
+		iw_print_stats(buffer, sizeof(buffer),&event->u.qual, iw_range, has_range);
+		printf("                    %s\n", buffer);
 		///file output
-		fprintf (fp,"\n");
-		///*ur here...*/
+		fprintf (fp[num_aps],"\n");
+		
 		///location update
-		location_time_stats newStat;
-		newStat.time = curTimeUnit;
-		newStat.router[state->ap_num-1] = u.qual;///ap_num was incremented just before here)
-		window.sliding_window[window.curPos++] = newStat;
+		
+		window.sliding_window[window.curPos].router[num_aps] = event->u.qual;///ap_num was incremented just before here)
+		
+		//window.sliding_window[window.curPos].router[num_aps].level
+		printf ("updated sliding window[%d] router[%d] \n",window.curPos,num_aps);
+		printf ("updated sliding window[%d].router[%d].level = %d\n",window.curPos,num_aps,window.sliding_window[window.curPos].router[num_aps].level);
 		break;
+	
 }
-
 		
 }
 
@@ -501,16 +530,20 @@ print_scanning_info(int		skfd,
 		    char *	args[],		/* Command line args */
 		    int		count)		/* Args count */
 {
+	
   struct iwreq		wrq;
   struct iw_scan_req    scanopt;		/* Options for 'set' */
   int			scanflags = 0;		/* Flags for scan */
+	
   unsigned char *	buffer = NULL;		/* Results */
   int			buflen = IW_SCAN_MAX_DATA; /* Min for compat WE<17 */
-  struct iw_range	range;
+	
+	struct iw_range	range;
   int			has_range;
+	
   struct timeval	tv;				/* Select timeout */
   int			timeout = 15000000;		/* 15s */
-
+	
   /* Avoid "Unused parameter" warning */
   args = args; count = count;
 
@@ -522,7 +555,7 @@ print_scanning_info(int		skfd,
       fprintf(stderr, "*** IW_EV_LCP_PK2_LEN = %zu ; IW_EV_POINT_PK2_LEN = %zu\n\n",
 	      IW_EV_LCP_PK2_LEN, IW_EV_POINT_PK2_LEN);
     }
-
+	
   /* Get range stuff */
   has_range = (iw_get_range_info(skfd, ifname, &range) >= 0);
 
@@ -747,7 +780,8 @@ print_scanning_info(int		skfd,
 #endif
       printf("%-8.16s  Scan completed :\n", ifname);
       iw_init_event_stream(&stream, (char *) buffer, wrq.u.data.length);
-      do
+			
+			do
 	{
 	  /* Extract an event and print it */
 	  ret = iw_extract_event_stream(&stream, &iwe,
@@ -1536,7 +1570,7 @@ print_ap_info(int	skfd,
 	{
 	  /* Print stats for this address */
 	  printf("    %s : ", iw_saether_ntop(&hwa[i], temp));
-	  iw_print_stats(temp, sizeof(buffer), &qual[i], &range, has_range);
+	  iw_print_stats(temp, sizeof(buffer), &qual[i], &range, has_range );
 	  printf("%s\n", temp);
 	}
       else
@@ -2089,30 +2123,94 @@ main(int	argc,
       perror("socket");
       return -1;
     }
-
+		
+	///get from file the relivant routers 
+	FILE * router_list = fopen("../input/inputrouters.txt", "r");
+	if (router_list == NULL) {
+		printf( "Can't open input file in.list!\n");
+	
+	}
+	char mac [18];
+	int xCo =0, yCo=0;
+	char essid[30];
+	printf("stasrt of input file io\n");
+	
+	fscanf(router_list, "%d", &no_routers);
+	printf("no routers %d\n", no_routers);
+	int c =0;
+	while (fscanf(router_list, "%s %d	%d	%s", mac, &xCo, &yCo, essid) != EOF) {
+		printf("this:%s:\nand this:%d:\n:%d:\n:%s:\n", mac, xCo, yCo, essid);
+		strcpy(router_address_map[c].mac , mac);
+		router_address_map[c].xCo = xCo;
+		router_address_map[c].yCo = yCo;
+		strcpy(router_address_map[c].essid ,essid);
+		
+		printf("captured router %d\n", c++);
+	}
+	fclose(router_list);
+	printf("end of input file io\n");
+	//router_list.
+	
   /* do the actual work */
 	struct timeval startTime;
 	gettimeofday(&startTime,NULL);
 	
-	fp=fopen("test.csv", "w");
-	
-	
 	int i;
-	for (i = 0 ; i < 3 ; i++)
+	for (i = 0 ; i < 10 ; i++)
 	{
 		struct timeval curTime;
+		window.curPos=i;
+		gettimeofday(&curTime,NULL);
 		
- 		gettimeofday(&curTime,NULL);
-		printf("cur time : %d %d\n",curTime.tv_sec-startTime.tv_sec , curTime.tv_usec-startTime.tv_usec);
-	
+
+		curTimeUnit.tv_sec = curTime.tv_sec - startTime.tv_sec;
+		curTimeUnit.tv_usec = curTime.tv_usec - startTime.tv_usec;
+		
+		struct location_time_stats newStat;
+		newStat.time = curTimeUnit;
+		window.sliding_window[window.curPos] = newStat;
+		printf("cur time : %d %d\n",curTimeUnit.tv_sec, curTimeUnit.tv_usec);
   if (dev)
+	{
+		//printf("dev = true - %s\n",*iwcmd->fn);
     (*iwcmd->fn)(skfd, dev, args, count);
+	}
   else
+	{
+		printf("dev not = true\n");
     iw_enum_devices(skfd, iwcmd->fn, args, count);
 	}
-	fclose(fp);
-  /* Close the socket. */
+	}
+	
+	///print out the window
+	i = 0;
+	/*while (i < 10)//window.sliding_window[i] != NULL)
+	{
+		printf( "time %d %d\n", window.sliding_window[i].time.tv_sec,window.sliding_window[i].time.tv_usec);
+		 int j = 0;
+		for (j = 0 ; j < 5 ; j++)
+		{
+			printf( "router %d: level %d \n", j, window.sliding_window[i].router[j].level);
+		}
+		i++;
+	}
+	
+	///close all file buffers
+	i = 0;
+	while (fp[i] != NULL){
+		
+		fclose(fp[i++]);
+		printf("closed fp %d\n",i);
+	}*/
+
   iw_sockets_close(skfd);
 	
   return 0;
 }
+
+double distance (double Pr, double Pt, double Gt, double Gr, double delta)
+{
+	return 1;//(1.0/2462000000.0)/()
+}
+	
+

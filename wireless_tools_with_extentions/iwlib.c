@@ -1343,196 +1343,192 @@ iw_get_stats(int		skfd,
 /*
  * Output the link statistics, taking care of formating
  */
+/*
+* Output the link statistics, taking care of formating
+*/
 void
 iw_print_stats(char *		buffer,
-	       int		buflen,
-	       const iwqual *	qual,
-	       const iwrange *	range,
-	       int		has_range)
-{
-	
-  int		len;
-	
-  /* People are very often confused by the 8 bit arithmetic happening
-   * here.
-   * All the values here are encoded in a 8 bit integer. 8 bit integers
-   * are either unsigned [0 ; 255], signed [-128 ; +127] or
-   * negative [-255 ; 0].
-   * Further, on 8 bits, 0x100 == 256 == 0.
-   *
-   * Relative/percent values are always encoded unsigned, between 0 and 255.
-   * Absolute/dBm values are always encoded between -192 and 63.
-   * (Note that up to version 28 of Wireless Tools, dBm used to be
-   *  encoded always negative, between -256 and -1).
-   *
-   * How do we separate relative from absolute values ?
-   * The old way is to use the range to do that. As of WE-19, we have
-   * an explicit IW_QUAL_DBM flag in updated...
-   * The range allow to specify the real min/max of the value. As the
-   * range struct only specify one bound of the value, we assume that
-   * the other bound is 0 (zero).
-   * For relative values, range is [0 ; range->max].
-   * For absolute values, range is [range->max ; 63].
-   *
-   * Let's take two example :
-   * 1) value is 75%. qual->value = 75 ; range->max_qual.value = 100
-   * 2) value is -54dBm. noise floor of the radio is -104dBm.
-   *    qual->value = -54 = 202 ; range->max_qual.value = -104 = 152
-   *
-   * Jean II
-   */
-
-  /* Just do it...
-   * The old way to detect dBm require both the range and a non-null
-   * level (which confuse the test). The new way can deal with level of 0
-   * because it does an explicit test on the flag. */
-	
-	///julz was here
-	//printf("qual: %d\n",qual->qual);
-	
-	///julz
-  if(has_range && ((qual->level != 0)
-		   || (qual->updated & (IW_QUAL_DBM | IW_QUAL_RCPI))))
-  {
-	/* Deal with quality : always a relative value */
-	if(!(qual->updated & IW_QUAL_QUAL_INVALID))
-	{
-		//printf("Deal with quality : always a relative value - qual: %d\n",qual->qual);
-	  len = snprintf(buffer, buflen, "Q%c,=%d/%d  ",
-			 qual->updated & IW_QUAL_QUAL_UPDATED ? '=' : ':',
-			 qual->qual, range->max_qual.qual);
-	  buffer += len;
-	  buflen -= len;
-		///file output
-		fprintf (fp,"Q,%c,=%d/%d,  ",
-							qual->updated & IW_QUAL_QUAL_UPDATED ? '=' : ':',
-							qual->qual, range->max_qual.qual);
-	}
-	//printf("\n");
-
-      /* Check if the statistics are in RCPI (IEEE 802.11k) */
-      if(qual->updated & IW_QUAL_RCPI)
-	{
-		//printf("Check if the statistics are in RCPI (IEEE 802.11k - qual: %d\n",qual->qual);
-	  /* Deal with signal level in RCPI */
-	  /* RCPI = int{(Power in dBm +110)*2} for 0dbm > Power > -110dBm */
-	  if(!(qual->updated & IW_QUAL_LEVEL_INVALID))
-	    {
-	      double	rcpilevel = (qual->level / 2.0) - 110.0;
-	      len = snprintf(buffer, buflen, "Signal level%c%g,",
-			     qual->updated & IW_QUAL_LEVEL_UPDATED ? '=' : ':',
-			     rcpilevel);
-	      buffer += len;
-	      buflen -= len;
-				///file output
-				fprintf("SL,%c,%g",
-				qual->updated & IW_QUAL_LEVEL_UPDATED ? '=' : ':',
-				rcpilevel);
-	    }
-
-	  /* Deal with noise level in dBm (absolute power measurement) */
-	  if(!(qual->updated & IW_QUAL_NOISE_INVALID))
+								int		buflen,
+								const iwqual *	qual,
+								const iwrange *	range,
+								int		has_range)
+								{
+									int		len;
+		
+		/* People are very often confused by the 8 bit arithmetic happening
+		* here.
+		* All the values here are encoded in a 8 bit integer. 8 bit integers
+		* are either unsigned [0 ; 255], signed [-128 ; +127] or
+		* negative [-255 ; 0].
+		* Further, on 8 bits, 0x100 == 256 == 0.
+		*
+		* Relative/percent values are always encoded unsigned, between 0 and 255.
+		* Absolute/dBm values are always encoded between -192 and 63.
+		* (Note that up to version 28 of Wireless Tools, dBm used to be
+		*  encoded always negative, between -256 and -1).
+		*
+		* How do we separate relative from absolute values ?
+		* The old way is to use the range to do that. As of WE-19, we have
+		* an explicit IW_QUAL_DBM flag in updated...
+		* The range allow to specify the real min/max of the value. As the
+		* range struct only specify one bound of the value, we assume that
+		* the other bound is 0 (zero).
+		* For relative values, range is [0 ; range->max].
+		* For absolute values, range is [range->max ; 63].
+		*
+		* Let's take two example :
+		* 1) value is 75%. qual->value = 75 ; range->max_qual.value = 100
+		* 2) value is -54dBm. noise floor of the radio is -104dBm.
+		*    qual->value = -54 = 202 ; range->max_qual.value = -104 = 152
+		*
+		* Jean II
+		*/
+		
+		/* Just do it...
+		* The old way to detect dBm require both the range and a non-null
+		* level (which confuse the test). The new way can deal with level of 0
+		* because it does an explicit test on the flag. */
+		printf("num_aps is: %d\n",num_aps);
+		if(has_range && ((qual->level != 0)
+			|| (qual->updated & (IW_QUAL_DBM | IW_QUAL_RCPI))))
 		{
-			//printf(" Deal with noise level in dBm (absolute power measurement) - qual: %d\n",qual->qual);
-	      double	rcpinoise = (qual->noise / 2.0) - 110.0;
-	      len = snprintf(buffer, buflen, "Noise level%c%g dBm",
-			     qual->updated & IW_QUAL_NOISE_UPDATED ? '=' : ':',
-			     rcpinoise);
-					 ///file output
-					 fprintf(fp,"Noise,%c,%g,",
+			/* Deal with quality : always a relative value */
+			if(!(qual->updated & IW_QUAL_QUAL_INVALID))
+			{
+				len = snprintf(buffer, buflen, "Quality%c%d/%d  ",
+												qual->updated & IW_QUAL_QUAL_UPDATED ? '=' : ':',
+												qual->qual, range->max_qual.qual);
+												buffer += len;
+												buflen -= len;
+				
+				
+				
+				///file output
+				fprintf (fp[num_aps],"Q,%c,=%d/%d,  ",
+									qual->updated & IW_QUAL_QUAL_UPDATED ? '=' : ':',
+									qual->qual, range->max_qual.qual);
+			}
+			
+			/* Check if the statistics are in RCPI (IEEE 802.11k) */
+			if(qual->updated & IW_QUAL_RCPI)
+			{
+				printf("here");
+				/* Deal with signal level in RCPI */
+				/* RCPI = int{(Power in dBm +110)*2} for 0dbm > Power > -110dBm */
+				if(!(qual->updated & IW_QUAL_LEVEL_INVALID))
+				{
+					double	rcpilevel = (qual->level / 2.0) - 110.0;
+					len = snprintf(buffer, buflen, "Signal level%c%g dBm  ",
+													qual->updated & IW_QUAL_LEVEL_UPDATED ? '=' : ':',
+													rcpilevel);
+													buffer += len;
+													buflen -= len;
+					///file output
+					fprintf(fp[num_aps],"SL,%c,%g",
+										qual->updated & IW_QUAL_LEVEL_UPDATED ? '=' : ':',
+										rcpilevel);
+					//window.sliding_window[window.curPos].router[num_aps] =  rcpilevel;
+				}
+				
+				/* Deal with noise level in dBm (absolute power measurement) */
+				if(!(qual->updated & IW_QUAL_NOISE_INVALID))
+				{
+					double	rcpinoise = (qual->noise / 2.0) - 110.0;
+					len = snprintf(buffer, buflen, "Noise level%c%g dBm",
+													qual->updated & IW_QUAL_NOISE_UPDATED ? '=' : ':',
+													rcpinoise);
+					///file output
+					fprintf(fp[num_aps],"Noise,%c,%g,",
 										qual->updated & IW_QUAL_NOISE_UPDATED ? '=' : ':',
 										rcpinoise);
-	    }
-	}
-      else
-	{
-	  /* Check if the statistics are in dBm */
-	  if((qual->updated & IW_QUAL_DBM)
-	     || (qual->level > range->max_qual.level))
-	    {
-				//printf(" Check if the statistics are in dBm  - qual: %d\n",qual->qual);
-	      /* Deal with signal level in dBm  (absolute power measurement) */
-	      if(!(qual->updated & IW_QUAL_LEVEL_INVALID))
-		{
-			//printf("Deal with signal level in dBm  (absolute power measurement) - qual: %d\n",qual->qual);
-		  int	dblevel = qual->level;
-		  /* Implement a range for dBm [-192; 63] */
-		  if(qual->level >= 64)
-		    dblevel -= 0x100;
-		  len = snprintf(buffer, buflen, "Signal level%c%d dBm  ",
-				 qual->updated & IW_QUAL_LEVEL_UPDATED ? '=' : ':',
-				 dblevel);
-		  buffer += len;
-		  buflen -= len;
-			///file output
-			fprintf(fp,"Signal level,%c,%d, ",
-							 qual->updated & IW_QUAL_LEVEL_UPDATED ? '=' : ':',
-							 dblevel);
+				}
+			}
+			else
+			{
+				
+				/* Check if the statistics are in dBm */
+				if((qual->updated & IW_QUAL_DBM)
+					|| (qual->level > range->max_qual.level))
+				{
+					/* Deal with signal level in dBm  (absolute power measurement) */
+					if(!(qual->updated & IW_QUAL_LEVEL_INVALID))
+					{
+						int	dblevel = qual->level;
+						printf("dblevel is %d\n",dblevel);
+						/* Implement a range for dBm [-192; 63] */
+						if(qual->level >= 64)
+							dblevel -= 0x100;
+						///this is what my card does
+						len = snprintf(buffer, buflen, "Signal level%c%d dBm  ",
+														qual->updated & IW_QUAL_LEVEL_UPDATED ? '=' : ':',
+														dblevel);
+														buffer += len;
+														buflen -= len;
+						///file output
+						fprintf(fp[num_aps],"Signal level,%c,%d, ",
+											qual->updated & IW_QUAL_LEVEL_UPDATED ? '=' : ':',
+											dblevel);
+					}
+					
+					/* Deal with noise level in dBm (absolute power measurement) */
+					if(!(qual->updated & IW_QUAL_NOISE_INVALID))
+					{
+						int	dbnoise = qual->noise;
+						/* Implement a range for dBm [-192; 63] */
+						if(qual->noise >= 64)
+							dbnoise -= 0x100;
+						len = snprintf(buffer, buflen, "Noise level%c%d dBm",
+														qual->updated & IW_QUAL_NOISE_UPDATED ? '=' : ':',
+														dbnoise);
+						///file output
+						fprintf(fp[num_aps],"Noise level,%c,%d,",
+											qual->updated & IW_QUAL_NOISE_UPDATED ? '=' : ':',
+											dbnoise);
+					}
+				}
+				else
+				{
+					/* Deal with signal level as relative value (0 -> max) */
+					if(!(qual->updated & IW_QUAL_LEVEL_INVALID))
+					{
+						len = snprintf(buffer, buflen, "Signal level%c%d/%d  ",
+														qual->updated & IW_QUAL_LEVEL_UPDATED ? '=' : ':',
+														qual->level, range->max_qual.level);
+														buffer += len;
+														buflen -= len;
+						///file output
+						fprintf(fp[num_aps],"Signal level,%c,=%d/%d , ",
+											qual->updated & IW_QUAL_LEVEL_UPDATED ? '=' : ':',
+											qual->level, range->max_qual.level);
+					}
+					
+					/* Deal with noise level as relative value (0 -> max) */
+					if(!(qual->updated & IW_QUAL_NOISE_INVALID))
+					{
+						len = snprintf(buffer, buflen, "Noise level%c%d/%d",
+														qual->updated & IW_QUAL_NOISE_UPDATED ? '=' : ':',
+														qual->noise, range->max_qual.noise);
+						///file output
+						fprintf(fp[num_aps],"Noise level,%c,=%d/%d",
+											qual->updated & IW_QUAL_NOISE_UPDATED ? '=' : ':',
+											qual->noise, range->max_qual.noise);
+					}
+				}
+			}
 		}
-
-	      /* Deal with noise level in dBm (absolute power measurement) */
-	      if(!(qual->updated & IW_QUAL_NOISE_INVALID))
+		else
 		{
-			//printf(" Deal with noise level in dBm (absolute power measurement)  - qual: %d\n",qual->qual);
-			
-		  int	dbnoise = qual->noise;
-		  /* Implement a range for dBm [-192; 63] */
-		  if(qual->noise >= 64)
-		    dbnoise -= 0x100;
-		  len = snprintf(buffer, buflen, "Noise level%c%d dBm",
-				 qual->updated & IW_QUAL_NOISE_UPDATED ? '=' : ':',
-				 dbnoise);
-				 ///file output
-				 fprintf(fp,"Noise level,%c,%d,",
-									qual->updated & IW_QUAL_NOISE_UPDATED ? '=' : ':',
-									dbnoise);
-		}
-	    }
-	  else
-	    {
-	      /* Deal with signal level as relative value (0 -> max) */
-	      if(!(qual->updated & IW_QUAL_LEVEL_INVALID))
-		{
-			//printf("Deal with signal level as relative value (0 -> max - qual: %d\n",qual->qual);
-		  len = snprintf(buffer, buflen, "Signal level%c%d/%d  ",
-				 qual->updated & IW_QUAL_LEVEL_UPDATED ? '=' : ':',
-				 qual->level, range->max_qual.level);
-		  buffer += len;
-			buflen -= len;
-			///file output
-			fprintf(fp,"Signal level,%c,=%d/%d , ",
-							 qual->updated & IW_QUAL_LEVEL_UPDATED ? '=' : ':',
-							 qual->level, range->max_qual.level);
-		}
-
-	      /* Deal with noise level as relative value (0 -> max) */
-	      if(!(qual->updated & IW_QUAL_NOISE_INVALID))
-		{
-			//printf("Deal with noise level as relative value (0 -> max)  - qual: %d\n",qual->qual);
-		  len = snprintf(buffer, buflen, "Noise level%c%d/%d",
-				 qual->updated & IW_QUAL_NOISE_UPDATED ? '=' : ':',
-				 qual->noise, range->max_qual.noise);
-			///file output
-			fprintf(fp,"Noise level,%c,=%d/%d",
-							 qual->updated & IW_QUAL_NOISE_UPDATED ? '=' : ':',
-							 qual->noise, range->max_qual.noise);
-		}
-	    }
-	}
-    }
-  else
-    {
-      /* We can't read the range, so we don't know... */
-      snprintf(buffer, buflen,
-	       "Quality:%d  Signal level:%d  Noise level:%d",
+			/* We can't read the range, so we don't know... */
+			snprintf(buffer, buflen,
+								"Quality:%d  Signal level:%d  Noise level:%d",
 								qual->qual, qual->level, qual->noise);
 			///file output
-			fprintf(fp, "Quality:,%d,  Signal level:,%d,  Noise level:,%d,",
-							 qual->qual, qual->level, qual->noise);
-    }
-		//printf("end of iw_print_stats\n");
-}
+			fprintf(fp[num_aps], "Quality:,%d,  Signal level:,%d,  Noise level:,%d,",
+								qual->qual, qual->level, qual->noise);
+		}
+	}
 
+								
 /*********************** ENCODING SUBROUTINES ***********************/
 
 /*------------------------------------------------------------------*/
