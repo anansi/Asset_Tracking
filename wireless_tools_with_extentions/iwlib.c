@@ -1407,12 +1407,13 @@ iw_print_stats(char *		buffer,
 				fprintf (fp[num_aps],"Q,%c,=%d/%d,  ",
 									qual->updated & IW_QUAL_QUAL_UPDATED ? '=' : ':',
 									qual->qual, range->max_qual.qual);
+				
 			}
 			
 			/* Check if the statistics are in RCPI (IEEE 802.11k) */
 			if(qual->updated & IW_QUAL_RCPI)
 			{
-				printf("here");
+				//printf("here");
 				/* Deal with signal level in RCPI */
 				/* RCPI = int{(Power in dBm +110)*2} for 0dbm > Power > -110dBm */
 				if(!(qual->updated & IW_QUAL_LEVEL_INVALID))
@@ -1427,6 +1428,8 @@ iw_print_stats(char *		buffer,
 					fprintf(fp[num_aps],"SL,%c,%g",
 										qual->updated & IW_QUAL_LEVEL_UPDATED ? '=' : ':',
 										rcpilevel);
+					///window update
+					window.sliding_window[window.curPos].signal_strength [num_aps] = rcpilevel;
 					//window.sliding_window[window.curPos].router[num_aps] =  rcpilevel;
 				}
 				
@@ -1454,7 +1457,7 @@ iw_print_stats(char *		buffer,
 					if(!(qual->updated & IW_QUAL_LEVEL_INVALID))
 					{
 						int	dblevel = qual->level;
-						printf("dblevel is %d\n",dblevel);
+						
 						/* Implement a range for dBm [-192; 63] */
 						if(qual->level >= 64)
 							dblevel -= 0x100;
@@ -1468,6 +1471,9 @@ iw_print_stats(char *		buffer,
 						fprintf(fp[num_aps],"Signal level,%c,%d, ",
 											qual->updated & IW_QUAL_LEVEL_UPDATED ? '=' : ':',
 											dblevel);
+											
+						///window update
+						window.sliding_window[window.curPos].signal_strength[num_aps] = dblevel;
 					}
 					
 					/* Deal with noise level in dBm (absolute power measurement) */
@@ -1500,6 +1506,9 @@ iw_print_stats(char *		buffer,
 						fprintf(fp[num_aps],"Signal level,%c,=%d/%d , ",
 											qual->updated & IW_QUAL_LEVEL_UPDATED ? '=' : ':',
 											qual->level, range->max_qual.level);
+						
+						///window update
+						window.sliding_window[window.curPos].signal_strength[num_aps] = qual->level;
 					}
 					
 					/* Deal with noise level as relative value (0 -> max) */
@@ -1525,6 +1534,8 @@ iw_print_stats(char *		buffer,
 			///file output
 			fprintf(fp[num_aps], "Quality:,%d,  Signal level:,%d,  Noise level:,%d,",
 								qual->qual, qual->level, qual->noise);
+			///window update
+			window.sliding_window[window.curPos].signal_strength[num_aps] = qual->level;
 		}
 	}
 

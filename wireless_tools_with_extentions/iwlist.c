@@ -465,6 +465,7 @@ switch(event->cmd)
 	case SIOCGIWAP:///which cell:
 		;
 		
+		
 		gettimeofday(&startTime,NULL);		
 		struct router tmp;
 		iw_saether_ntop(&event->u.ap_addr, tmp.mac);
@@ -475,22 +476,22 @@ switch(event->cmd)
 		///map routers to table
 		///1: check if router is part of the experiment, or just a stray
 		int i = 0;
-		
 		for (i = 0 ; i < no_routers; i++ )
 		{
-			
 			if (strcmp(router_address_map[i].mac, tmp.mac) == 0)
-			{
-				printf("found %s in routeraddressmap\n",router_address_map[i].essid);
+			{///the router is part of experiemnt
+				printf("reading from router: %s\n",router_address_map[i].essid);
 				///open the file pointer for this router
 				char out_filename [34];
 				sprintf(out_filename, "../output/output_for_router_%d.csv" , i);
 				if (fp[i] == NULL)
 					fp[i] = fopen(out_filename, "w");
 				///and write in the router details
-				fprintf(fp[i], "%d,%s,", state->ap_num,iw_saether_ntop(&event->u.ap_addr, buffer));				
+				fprintf(fp[i], "%d,%s,", state->ap_num,iw_saether_ntop(&event->u.ap_addr, buffer));
 				
 				num_aps = i;
+				
+				valid_quality_event = 1;///signal that the next quality event will be the capture of needed data
 				break;
 			}
 			
@@ -498,10 +499,11 @@ switch(event->cmd)
 		state->ap_num++;
 		break;
 	case IWEVQUAL:///quality event
-		;
-		
+		///check if the signal event is from a router in the experiment
+		if (valid_quality_event == 1)
+	{	
 		gettimeofday(&startTime,NULL);
-		printf ("\n\nin qual event%d %d\n",startTime.tv_sec,startTime.tv_usec);  
+		//printf ("\n\nin qual event%d %d\n",startTime.tv_sec,startTime.tv_usec);  
 		iw_print_stats(buffer, sizeof(buffer),&event->u.qual, iw_range, has_range);
 		printf("                    %s\n", buffer);
 		///file output
@@ -510,10 +512,20 @@ switch(event->cmd)
 		///location update
 		
 		window.sliding_window[window.curPos].router[num_aps] = event->u.qual;///ap_num was incremented just before here)
+		///TODO window.sliding_window[window.curPos].data[num_aps] = event;///ap_num was incremented just before here)
 		
 		//window.sliding_window[window.curPos].router[num_aps].level
-		printf ("updated sliding window[%d] router[%d] \n",window.curPos,num_aps);
-		printf ("updated sliding window[%d].router[%d].level = %d\n",window.curPos,num_aps,window.sliding_window[window.curPos].router[num_aps].level);
+		//printf ("updated sliding window[%d] router[%d] \n",window.curPos,num_aps);
+//		printf ("updated sliding window[%d].r; outer[%d].level = %d\n",window.curPos,num_aps,window.sliding_window[window.curPos].router[num_aps].level);
+		
+		
+		if (num_aps == no_routers - 1 )
+		{
+			//window.sliding_window[window.curPos].
+		}
+		valid_quality_event = 0;
+}
+		
 		break;
 	
 }
@@ -2127,81 +2139,76 @@ main(int	argc,
 	///get from file the relivant routers 
 	FILE * router_list = fopen("../input/inputrouters.txt", "r");
 	if (router_list == NULL) {
-		printf( "Can't open input file in.list!\n");
+		printf( "Can't open input file router list!\n");
 	
 	}
 	char mac [18];
 	int xCo =0, yCo=0;
 	char essid[30];
-	printf("stasrt of input file io\n");
+	printf("start of input file io\n");
 	
 	fscanf(router_list, "%d", &no_routers);
 	printf("no routers %d\n", no_routers);
 	int c =0;
 	while (fscanf(router_list, "%s %d	%d	%s", mac, &xCo, &yCo, essid) != EOF) {
-		printf("this:%s:\nand this:%d:\n:%d:\n:%s:\n", mac, xCo, yCo, essid);
+		
+		printf("captured router %d: %s\n", c, essid);
 		strcpy(router_address_map[c].mac , mac);
 		router_address_map[c].xCo = xCo;
 		router_address_map[c].yCo = yCo;
 		strcpy(router_address_map[c].essid ,essid);
-		
-		printf("captured router %d\n", c++);
+		c++;
 	}
 	fclose(router_list);
-	printf("end of input file io\n");
+	printf("end of router file io\n");
 	//router_list.
 	
   /* do the actual work */
+	///init the time variables
 	struct timeval startTime;
+	struct timeval curTime;
 	gettimeofday(&startTime,NULL);
-	
+	///get data (i times)
 	int i;
 	for (i = 0 ; i < 10 ; i++)
 	{
-		struct timeval curTime;
-		window.curPos=i;
-		gettimeofday(&curTime,NULL);
-		
+	///setup the window position - the token method will fill the window
+	window.curPos = i;
 
-		curTimeUnit.tv_sec = curTime.tv_sec - startTime.tv_sec;
-		curTimeUnit.tv_usec = curTime.tv_usec - startTime.tv_usec;
-		
-		struct location_time_stats newStat;
-		newStat.time = curTimeUnit;
-		window.sliding_window[window.curPos] = newStat;
-		printf("cur time : %d %d\n",curTimeUnit.tv_sec, curTimeUnit.tv_usec);
   if (dev)
-	{
-		//printf("dev = true - %s\n",*iwcmd->fn);
     (*iwcmd->fn)(skfd, dev, args, count);
-	}
   else
-	{
-		printf("dev not = true\n");
     iw_enum_devices(skfd, iwcmd->fn, args, count);
-	}
+
+	///signal data captured for the window item, now set the time for it
+	gettimeofday(&curTime,NULL);
+	curTimeUnit.tv_sec = curTime.tv_sec - startTime.tv_sec;
+	curTimeUnit.tv_usec = curTime.tv_usec - startTime.tv_usec;
+
+	window.sliding_window[window.curPos].time = curTimeUnit;
+	printf(": %d %d\n",curTimeUnit.tv_sec, curTimeUnit.tv_usec);
 	}
 	
 	///print out the window
 	i = 0;
-	/*while (i < 10)//window.sliding_window[i] != NULL)
+	while (i < 10)
 	{
 		printf( "time %d %d\n", window.sliding_window[i].time.tv_sec,window.sliding_window[i].time.tv_usec);
 		 int j = 0;
-		for (j = 0 ; j < 5 ; j++)
+		for (j = 0 ; j < 2 ; j++)
 		{
-			printf( "router %d: level %d \n", j, window.sliding_window[i].router[j].level);
+			printf( "router %d: level %d \n", j, window.sliding_window[i].signal_strength[j]);
 		}
 		i++;
 	}
 	
 	///close all file buffers
 	i = 0;
-	while (fp[i] != NULL){
+	while (fp[i] != NULL)	{
 		
 		fclose(fp[i++]);
 		printf("closed fp %d\n",i);
-	}*/
+	}
 
   iw_sockets_close(skfd);
 	

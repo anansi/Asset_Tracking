@@ -619,13 +619,17 @@ struct router	{
 ///
 
 int no_routers;///the number of routers that will be used in the experiment
-
+int valid_quality_event;
 double distance (double Pr, double Pt, double Gt, double Gr, double delta);
 
 struct timeval curTimeUnit;
+
+///location_time_stats: a struct to contain the signal levels at 1 point in time
 struct location_time_stats {
 	struct timeval time; ///time of sampling
 	struct iw_quality router[MAX_ROUTERS]; ///router signal levels at point in time
+	struct iw_event data [MAX_ROUTERS];
+	int signal_strength [MAX_ROUTERS];
 	union iwreq_data record;
 	};
 
