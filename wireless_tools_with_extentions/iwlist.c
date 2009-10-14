@@ -2168,6 +2168,7 @@ main(int	argc,
 	struct timeval startTime;
 	struct timeval curTime;
 	gettimeofday(&startTime,NULL);
+	
 	///get data (i times)
 	int i;
 	for (i = 0 ; i < 10 ; i++)
@@ -2184,9 +2185,13 @@ main(int	argc,
 	gettimeofday(&curTime,NULL);
 	curTimeUnit.tv_sec = curTime.tv_sec - startTime.tv_sec;
 	curTimeUnit.tv_usec = curTime.tv_usec - startTime.tv_usec;
-
+	
 	window.sliding_window[window.curPos].time = curTimeUnit;
 	printf(": %d %d\n",curTimeUnit.tv_sec, curTimeUnit.tv_usec);
+	
+	///now compare the data to the coordinate map: where is it?!
+	struct sig_coor_map_item location;
+	location = locate_signal (window.sliding_window[window.curPos]);
 	}
 	
 	///print out the window
@@ -2220,4 +2225,39 @@ double distance (double Pr, double Pt, double Gt, double Gr, double delta)
 	return 1;//(1.0/2462000000.0)/()
 }
 	
-
+struct sig_coor_map_item locate_signal (struct location_time_stats input_signal)
+{
+	
+	coor_count = 2;
+	int total_diff [coor_count];
+	///compare the signals to the database:
+	 int i = 0;
+	for (i = 0 ; i < coor_count ; i++)
+	{///for every coord:
+		total_diff [i] = 0; ///init the diff figure
+		
+		
+		///for each router, check how different the signal readings are
+		 int j = 0;
+		for (j = 0 ; j < no_routers ; j++)
+		{
+			///diff_2 = the square of the diff between located and coor signal strengths
+			int diff_2 = (input_signal.signal_strength[j] - sig_coor_map [i].signal_strength[j])*(input_signal.signal_strength[j] - sig_coor_map [i].signal_strength[j]);
+			total_diff [i] += diff_2;
+			
+		}
+		printf("total diff for loc %d: %d\n", i ,total_diff[i]);
+		
+		
+	}
+	///find the best coordinate
+	int best_record_index = 0;
+	 int k = 0 ;
+	for (k = 0 ; k < coor_count ; k++)
+	///NOTE this is 1stNN method.. could generalise to kNN
+		if (total_diff [k] < best_record_index)
+			best_record_index = total_diff [k];
+	
+	///return result
+	return sig_coor_map[k];
+}

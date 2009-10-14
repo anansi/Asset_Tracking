@@ -607,13 +607,14 @@ iw_ether_cmp(const struct ether_addr* eth1, const struct ether_addr* eth2)
 ///file io
 #define MAX_ROUTERS 50
 #define WINDOW_SIZE 100
+#define MAX_COORDINATES 1000
 FILE *fp [MAX_ROUTERS];
 
 struct router	{
 	char mac [150] ;
 	char essid [30];	
 	int xCo, yCo;
-	//bool wanted; ///indicates that the router is not a stray router found in reception radius
+	
 	struct iw_quality current_signal;
 } router_address_map[MAX_ROUTERS];
 ///
@@ -635,11 +636,29 @@ struct location_time_stats {
 
 int num_aps;
 int num_timeUnits;
+
+///struct to hold all signal readings, limiting the number by the "window size"
 struct location_tracking	{
 	struct location_time_stats sliding_window[WINDOW_SIZE];
 	int curPos;
 };
+///the object that will hold signal tracking data
 struct location_tracking window;
+
+
+///the number of coordinates read in from the map of environ
+int coor_count; 
+///the signals to coordinate map
+struct sig_coor_map_item	{
+	int signal_strength [MAX_ROUTERS];
+	double x,y;
+	char label [40];
+};
+struct sig_coor_map_item sig_coor_map [MAX_COORDINATES];
+
+
+///the localising function
+struct sig_coor_map_item locate_signal (struct location_time_stats input_signals);
 
 /*end of Julz's extensions*/
 #ifdef __cplusplus
