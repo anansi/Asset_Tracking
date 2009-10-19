@@ -1388,7 +1388,7 @@ iw_print_stats(char *		buffer,
 		* The old way to detect dBm require both the range and a non-null
 		* level (which confuse the test). The new way can deal with level of 0
 		* because it does an explicit test on the flag. */
-		printf("num_aps is: %d\n",num_aps);
+		
 		if(has_range && ((qual->level != 0)
 			|| (qual->updated & (IW_QUAL_DBM | IW_QUAL_RCPI))))
 		{
@@ -1400,11 +1400,8 @@ iw_print_stats(char *		buffer,
 												qual->qual, range->max_qual.qual);
 												buffer += len;
 												buflen -= len;
-				
-				
-				
 				///file output
-				fprintf (fp[num_aps],"Q,%c,=%d/%d,  ",
+				fprintf (fp[num_aps -1],"Q,%c,=%d/%d,  ",
 									qual->updated & IW_QUAL_QUAL_UPDATED ? '=' : ':',
 									qual->qual, range->max_qual.qual);
 				
@@ -1425,11 +1422,11 @@ iw_print_stats(char *		buffer,
 													buffer += len;
 													buflen -= len;
 					///file output
-					fprintf(fp[num_aps],"SL,%c,%g",
+					fprintf(fp[num_aps -1],"SL,%c,%g",
 										qual->updated & IW_QUAL_LEVEL_UPDATED ? '=' : ':',
 										rcpilevel);
 					///window update
-					window.sliding_window[window.curPos].signal_strength [num_aps] = rcpilevel;
+					window.sliding_window[window.curPos].signal_strength [num_aps -1] = rcpilevel;
 					//window.sliding_window[window.curPos].router[num_aps] =  rcpilevel;
 				}
 				
@@ -1441,7 +1438,7 @@ iw_print_stats(char *		buffer,
 													qual->updated & IW_QUAL_NOISE_UPDATED ? '=' : ':',
 													rcpinoise);
 					///file output
-					fprintf(fp[num_aps],"Noise,%c,%g,",
+					fprintf(fp[num_aps -1],"Noise,%c,%g,",
 										qual->updated & IW_QUAL_NOISE_UPDATED ? '=' : ':',
 										rcpinoise);
 				}
@@ -1468,12 +1465,12 @@ iw_print_stats(char *		buffer,
 														buffer += len;
 														buflen -= len;
 						///file output
-						fprintf(fp[num_aps],"Signal level,%c,%d, ",
+						fprintf(fp[num_aps -1],"Signal level,%c,%d, ",
 											qual->updated & IW_QUAL_LEVEL_UPDATED ? '=' : ':',
 											dblevel);
 											
 						///window update
-						window.sliding_window[window.curPos].signal_strength[num_aps] = dblevel;
+						window.sliding_window[window.curPos].signal_strength[num_aps -1] = dblevel;
 					}
 					
 					/* Deal with noise level in dBm (absolute power measurement) */
@@ -1487,7 +1484,7 @@ iw_print_stats(char *		buffer,
 														qual->updated & IW_QUAL_NOISE_UPDATED ? '=' : ':',
 														dbnoise);
 						///file output
-						fprintf(fp[num_aps],"Noise level,%c,%d,",
+						fprintf(fp[num_aps -1],"Noise level,%c,%d,",
 											qual->updated & IW_QUAL_NOISE_UPDATED ? '=' : ':',
 											dbnoise);
 					}
@@ -1503,12 +1500,12 @@ iw_print_stats(char *		buffer,
 														buffer += len;
 														buflen -= len;
 						///file output
-						fprintf(fp[num_aps],"Signal level,%c,=%d/%d , ",
+						fprintf(fp[num_aps -1],"Signal level,%c,=%d/%d , ",
 											qual->updated & IW_QUAL_LEVEL_UPDATED ? '=' : ':',
 											qual->level, range->max_qual.level);
 						
 						///window update
-						window.sliding_window[window.curPos].signal_strength[num_aps] = qual->level;
+						window.sliding_window[window.curPos].signal_strength[num_aps -1] = qual->level;
 					}
 					
 					/* Deal with noise level as relative value (0 -> max) */
@@ -1518,7 +1515,7 @@ iw_print_stats(char *		buffer,
 														qual->updated & IW_QUAL_NOISE_UPDATED ? '=' : ':',
 														qual->noise, range->max_qual.noise);
 						///file output
-						fprintf(fp[num_aps],"Noise level,%c,=%d/%d",
+						fprintf(fp[num_aps -1],"Noise level,%c,=%d/%d",
 											qual->updated & IW_QUAL_NOISE_UPDATED ? '=' : ':',
 											qual->noise, range->max_qual.noise);
 					}
@@ -1532,10 +1529,10 @@ iw_print_stats(char *		buffer,
 								"Quality:%d  Signal level:%d  Noise level:%d",
 								qual->qual, qual->level, qual->noise);
 			///file output
-			fprintf(fp[num_aps], "Quality:,%d,  Signal level:,%d,  Noise level:,%d,",
+			fprintf(fp[num_aps -1], "Quality:,%d,  Signal level:,%d,  Noise level:,%d,",
 								qual->qual, qual->level, qual->noise);
 			///window update
-			window.sliding_window[window.curPos].signal_strength[num_aps] = qual->level;
+			window.sliding_window[window.curPos].signal_strength[num_aps -1] = qual->level;
 		}
 	}
 

@@ -1,4 +1,5 @@
-2
-00:19:70:05:F0:B7	0	0	hulme	
-00:1E:2A:23:3D:B6	50	50	netgear
-
+4
+00:14:6C:A7:B5:06 0 0 adora
+00:21:A0:0F:E3:E0 0 0 window_side
+00:17:DF:A8:95:E1 0 0 non_window_side
+00:24:B2:39:A6:D8 0 0 black

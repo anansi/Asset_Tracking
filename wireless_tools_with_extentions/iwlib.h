@@ -636,6 +636,7 @@ struct location_time_stats {
 
 int num_aps;
 int num_timeUnits;
+char test_num [4];
 
 ///struct to hold all signal readings, limiting the number by the "window size"
 struct location_tracking	{
@@ -658,7 +659,7 @@ struct sig_coor_map_item sig_coor_map [MAX_COORDINATES];
 
 
 ///the localising function
-struct sig_coor_map_item locate_signal (struct location_time_stats input_signals);
+struct sig_coor_map_item * locate_signal (struct location_time_stats input_signals);
 
 /*end of Julz's extensions*/
 #ifdef __cplusplus

@@ -444,6 +444,398 @@ iw_print_gen_ie(unsigned char *	buffer,
  * do the complete job...
  */
 
+/*
+ * Julz:
+ * Learn map: 
+ * function to iteratively create coordinates in the environment and associate 
+ * signal strengths to them.
+ */
+void learn_map (int		skfd,
+								 char *	ifname,
+								 char *	args[],		/* Command line args */
+								 int		count)		/* Args count */
+{
+	printf("learn_map: %d %s \n",count,ifname);
+	///test output via this pointer
+	FILE * test_output = fopen("../output/test_outputs/output.txt", "a");///open the file for appending
+	if (test_output == NULL) 
+		printf( "Can't open the output test file!\n");	
+	fprintf(test_output,"Learning; %s\n",args[1]);
+	///get from file the relivant routers 
+	FILE * router_list = fopen("../input/inputrouters.txt", "r");///open the file
+	if (router_list == NULL) 
+		printf( "Can't open input file router list!\n");	
+	
+	///init new router vars
+	char mac [18];
+	int xCo =0, yCo=0;
+	char essid[30];
+	printf("start of input file io\n");
+	///
+	
+	fscanf(router_list, "%d", &no_routers);///obtain num routers as 1st param
+	printf("no routers %d\n", no_routers);
+	
+	///obtain router info from file
+	int c =0;
+	for (c = 0 ; c < no_routers ; c++){
+		
+		fscanf(router_list, "%s %d	%d	%s", mac, &xCo, &yCo, essid) ;///capture
+		printf("captured router %d: %s\n", c, essid);
+		///assign router data to the router_address_map item
+		strcpy(router_address_map[c].mac , mac);
+		router_address_map[c].xCo = xCo;
+		router_address_map[c].yCo = yCo;
+		strcpy(router_address_map[c].essid ,essid);	
+	}
+	fclose(router_list);///close the file
+	printf("end of router file io\n");
+	
+	/*
+	///create test coordinates
+	sig_coor_map [0].signal_strength [0] = -68;
+	sig_coor_map [0].signal_strength [1] = -87;
+	strcpy(sig_coor_map [0].label , "lounge table");
+	
+	sig_coor_map [1].signal_strength [0] = -39;
+	sig_coor_map [1].signal_strength [1] = -84;
+	strcpy(sig_coor_map [1].label , "outside dads office");
+	*/
+	///init the window time variables
+	struct timeval startTime;
+	struct timeval curTime;
+	gettimeofday(&startTime,NULL);
+	
+	///get data (i times)
+	int i;
+	for (i = 0 ; i < 10 ; i++)
+	{
+		///set the number of AP's handle to 0 for this scan	
+		num_aps = 0;
+		///setup the window position - the token method will fill the window
+		window.curPos = i;
+		
+		///do some actual work
+		/*
+		int		skfd,
+		char *	ifname,
+		char *	args[],		 Command line args 
+		int		count*/
+		connect_signals ( skfd , ifname , args , count );
+		
+		///signal data captured for the window item, now set the time for it
+		gettimeofday(&curTime,NULL);
+		curTimeUnit.tv_sec = curTime.tv_sec - startTime.tv_sec;
+		curTimeUnit.tv_usec = curTime.tv_usec - startTime.tv_usec;
+		
+		window.sliding_window[window.curPos].time = curTimeUnit;
+		printf(": %d %d\n",curTimeUnit.tv_sec, curTimeUnit.tv_usec);
+		
+		///now compare the data to the coordinate map: where is it?!
+		struct sig_coor_map_item * location;
+		if (num_aps == no_routers)	{
+			/*
+			///send to file the signal strengths of the routers: they ID the coord.
+			int i = 0;
+			for (i = 0 ; i < no_routers ; i++)
+			{
+				printf("%d  ",window.sliding_window[window.curPos].signal_strength[i] );
+				printf("%s\n" ,  router_address_map[i].mac);
+			}*/
+			
+			//location = locate_signal (window.sliding_window[window.curPos]);
+			//printf("location: %s\n", location->label);
+		}
+		else
+			printf("location: lack of signal\n");
+	}
+	
+	///create the coordinate file:
+	char out_filename [69];
+	sprintf(out_filename, "../input/coordinate_maps/%s.txt" , args[0]);
+	//printf("args0: %s		",args[0]);
+	
+	FILE * coord_file = fopen(out_filename, "a");///open the file
+	if (coord_file == NULL) 
+		printf( "Can't create the coord. file!\n");	
+	///send the coord. label to the file
+	fprintf(coord_file,"%s\n",args[1]);
+	printf("sent to file %s\n",args[1]);
+	
+	/*
+	///print out the window
+	i = 0;
+	while (i < 10)
+	{
+		printf( "time %d %d\n", window.sliding_window[i].time.tv_sec,window.sliding_window[i].time.tv_usec);
+		int j = 0;
+		for (j = 0 ; j < no_routers ; j++)
+		{
+			printf( "router %d: level %d \n", j, window.sliding_window[i].signal_strength[j]);
+		}
+		i++;
+	}*/
+	
+	///print out the window to output file
+	i = 0;
+	while (i < 10)
+	{
+		fprintf( test_output, "time %d %d\n", window.sliding_window[i].time.tv_sec,window.sliding_window[i].time.tv_usec);
+		int j = 0;
+		for (j = 0 ; j < no_routers ; j++)
+		{
+			fprintf(test_output,  "router %d: level %d \n", j, window.sliding_window[i].signal_strength[j]);
+		}
+		i++;
+	}
+	
+	///get the median of the window of results
+	int l = 0;
+	for (l = 0 ; l < no_routers ; l++)
+	{
+		///print the router mac to file
+		fprintf(coord_file,"%s ",router_address_map[l].mac);
+		int k = 0;
+		int counts [10][2];
+		///init counts
+		int n = 0;
+		for (n = 0 ; n < 10 ; n++)
+		{
+			counts[n][0] = -300;
+			counts[n][1] = -300;
+		}
+		for (k = 0 ; k < 10 ; k++)
+		{
+			///first determine if the sig value has occured
+			int m = 0;
+			for (m = 0 ; m < 10 ; m++)
+			{
+				///check if the signal value occurs in counts [m][0]
+				if (window.sliding_window[k].signal_strength[l] == counts[m][0])//window.sliding_window[i].signal_strength[j]
+				{///it does: so increment, acknowledge and break
+					counts[m][1] ++;
+					//printf("%d found for the %d time\n", window.sliding_window[k].signal_strength[l] , counts[m][1]);
+					///ack implicit via m != 10
+					break;
+					
+				}
+			}
+			
+			if (m == 10)///if the loop above didnt break, then no record of the value was found
+			{
+				int o = 0;
+				for (o = 0 ; o < 10 ; o++)
+				{
+					if (counts[o][0] == -300)
+					{
+						//printf("new value found: %d\n",window.sliding_window[k].signal_strength[l] );
+						///set the new discovered value to the next avail index in counts
+						counts[o][0] = window.sliding_window[k].signal_strength[l] ;
+						counts[o][1] = 1;
+						break;
+					}
+				}///loop o
+			}///if m == 10
+		}
+		
+		///check which signal was the most popular and make that the router fingerprint value
+		int p = 0;
+		int most_popular_value_index=0;
+		for (p = 0; p < 10 ; p++)
+		{
+			if (counts[p][1] > counts[most_popular_value_index][1])
+			{///a new value is found that is so far the most popular
+				most_popular_value_index = p;
+			}
+		}
+		//printf("most popular was %d with %d\n",counts[most_popular_value_index][0],counts[most_popular_value_index][1]);
+		fprintf(coord_file,"%d\n",counts[most_popular_value_index][0]);
+		printf("file; %d\n",counts[most_popular_value_index][0]);
+		
+	}
+	///close all file buffers
+	i = 0;
+	while (fp[i] != NULL)	{
+		
+		fclose(fp[i++]);
+		printf("closed fp %d\n",i);
+	}
+	
+}
+
+/*
+* Julz:
+* track: 
+* function to locate the machine in the learnt (calibrated) environment.
+*/
+void track (int		skfd,
+								 char *	ifname,
+								 char *	args[],		/* Command line args */
+								 int		count)		/* Args count */
+{
+	
+	///test output via this pointer
+	FILE * test_output = fopen("../output/test_outputs/output.txt", "a");///open the file for appending
+	if (test_output == NULL) 
+		printf( "Can't open the output test file!\n");	
+	
+	printf("track: %d %s %s %s %s\n",count,ifname,args[0],args[1]);
+	
+	strcpy(test_num , args[1]);
+	printf("test num is : %s\n",test_num);
+	///outfile heading print:
+	fprintf(test_output, "Tracking:\n" );
+	///get from file the relivant routers 
+	FILE * router_list = fopen("../input/inputrouters.txt", "r");///open the file
+	if (router_list == NULL) 
+		printf( "Can't open input file router list!\n");	
+	
+	///init new router vars
+	char mac [18];
+	int xCo =0, yCo=0;
+	char essid[30];
+	printf("start of input file io\n");
+	///
+	
+	fscanf(router_list, "%d", &no_routers);///obtain no routers as 1st param
+	printf("no routers %d\n", no_routers);
+	
+	int c =0;
+	for (c = 0 ; c < no_routers ; c++){
+		
+		fscanf(router_list, "%s %d	%d	%s", mac, &xCo, &yCo, essid) ;///capture
+		printf("captured router %d: %s\n", c, essid);
+		///assign router data to the router_address_map item
+		strcpy(router_address_map[c].mac , mac);
+		router_address_map[c].xCo = xCo;
+		router_address_map[c].yCo = yCo;
+		strcpy(router_address_map[c].essid ,essid);
+		
+	}
+	fclose(router_list);///close the file
+	printf("end of router file io\n");
+	
+	/*///create test coordinates
+	sig_coor_map [0].signal_strength [0] = -68;
+	sig_coor_map [0].signal_strength [1] = -87;
+	strcpy(sig_coor_map [0].label , "lounge table");
+	
+	sig_coor_map [1].signal_strength [0] = -39;
+	sig_coor_map [1].signal_strength [1] = -84;
+	strcpy(sig_coor_map [1].label , "outside dads office");*/
+	
+	///get the coordinates from file
+	char coord_filename [100];
+	sprintf(coord_filename, "%s" , args[0]);
+	printf("\n\n\n%s\n",coord_filename);
+	FILE * coord_file_pointer = fopen(coord_filename,"r");
+	
+	///
+	//fscanf(router_list, "%d", &no_routers);///obtain no routers as 1st param
+	//printf("no routers %d\n", no_routers);
+	
+	coor_count = 0;
+	//TODO
+	while (coor_count < 56) {
+		char point_label [100];
+		fscanf(coord_file_pointer, "%s", point_label) ;///capture label
+		printf("captured point with label: %s\n", point_label);
+		///for each router, capture the mac and signal fingerprint
+		int router_index = 0;
+		for (router_index = 0 ; router_index < no_routers ; router_index++)
+		{
+			char mac [107];
+			int value = 0;
+			fscanf (coord_file_pointer, "%s %d", mac, &value);
+			printf("mac: %s - valu: %d\n",mac,value);
+			
+			///now find the router and align the value to the right mac in signal_strength
+			int i = 0;
+			for (i < 0 ; i < no_routers ; i++)
+			{
+				if (strcmp(router_address_map[i].mac , mac) == 0)	{
+					sig_coor_map [coor_count].signal_strength [i] = value;
+					strcpy(sig_coor_map [coor_count].label,point_label); 
+					printf("found mac %s at %d\n",mac,i);
+					break;
+				}
+			}
+			//strcpy(sig_coor_map[num_coords].mac , mac);
+			//router_address_map[c].xCo = xCo;
+			//router_address_map[c].yCo = yCo;
+			//strcpy(router_address_map[c].essid ,essid);
+		}
+		coor_count++;
+	}
+	fclose(coord_file_pointer);///close the file
+	///
+	///init the window time variables
+	struct timeval startTime;
+	struct timeval curTime;
+	gettimeofday(&startTime,NULL);
+	
+	
+	
+	///get data (i times)
+	int i;
+	for (i = 0 ; i < 10 ; i++)
+	{
+		///set the number of AP's handle to 0 for this scan	
+		num_aps = 0;
+		///setup the window position - the token method will fill the window
+		window.curPos = i;
+		
+		///do some actual work
+		/*
+		int		skfd,
+		char *	ifname,
+		char *	args[],		 Command line args 
+		int		count*/
+		connect_signals ( skfd , ifname , args , count);
+		
+		///signal data captured for the window item, now set the time for it
+		gettimeofday(&curTime,NULL);
+		curTimeUnit.tv_sec = curTime.tv_sec - startTime.tv_sec;
+		curTimeUnit.tv_usec = curTime.tv_usec - startTime.tv_usec;
+		
+		window.sliding_window[window.curPos].time = curTimeUnit;
+		printf(": %d %d\n",curTimeUnit.tv_sec, curTimeUnit.tv_usec);
+		
+		///now compare the data to the coordinate map: where is it?!
+		struct sig_coor_map_item * location;
+		if (num_aps == no_routers)	{
+			location = locate_signal (window.sliding_window[window.curPos]);
+			printf("location: %s\n", location->label);
+		}
+		else
+			printf("location: lack of signal\n");
+	}
+	
+	
+	///print out the window
+	
+	i = 0;
+	while (i < 10)
+	{
+		fprintf( test_output, "time %d %d\n", window.sliding_window[i].time.tv_sec,window.sliding_window[i].time.tv_usec);
+		int j = 0;
+		for (j = 0 ; j < no_routers ; j++)
+		{
+			fprintf(test_output,  "router %d: level %d \n", j, window.sliding_window[i].signal_strength[j]);
+		}
+		i++;
+	}
+
+	///close all file buffers
+	i = 0;
+	while (fp[i] != NULL)	{
+		
+		fclose(fp[i++]);
+		printf("closed fp %d\n",i);
+	}
+	
+}
+
 /*------------------------------------------------------------------*/
 /*
  * Print one element from the scanning results
@@ -470,32 +862,36 @@ switch(event->cmd)
 		struct router tmp;
 		iw_saether_ntop(&event->u.ap_addr, tmp.mac);
 		
-		printf("          Cell %02d - Address: %s\n", state->ap_num,
+		printf("          Cell %02d - Address: %s	", state->ap_num,
 											tmp.mac);
 
 		///map routers to table
 		///1: check if router is part of the experiment, or just a stray
 		int i = 0;
+		
+		int recognised_address = 0;
 		for (i = 0 ; i < no_routers; i++ )
 		{
 			if (strcmp(router_address_map[i].mac, tmp.mac) == 0)
 			{///the router is part of experiemnt
-				printf("reading from router: %s\n",router_address_map[i].essid);
+				printf("recognised: %s (num_aps = %d)\n",router_address_map[i].essid,num_aps);
+				recognised_address = 1;
 				///open the file pointer for this router
 				char out_filename [34];
-				sprintf(out_filename, "../output/output_for_router_%d.csv" , i);
-				if (fp[i] == NULL)
-					fp[i] = fopen(out_filename, "w");
+				sprintf(out_filename, "../output/output_for_router_%d.csv" , num_aps);
+				//if (fp[num_aps] == NULL)
+					fp[num_aps] = fopen(out_filename, "w");
 				///and write in the router details
-				fprintf(fp[i], "%d,%s,", state->ap_num,iw_saether_ntop(&event->u.ap_addr, buffer));
-				
-				num_aps = i;
+				fprintf(fp[num_aps], "%d,",1);//%s,", state->ap_num,iw_saether_ntop(&event->u.ap_addr, buffer));
+				num_aps ++;
 				
 				valid_quality_event = 1;///signal that the next quality event will be the capture of needed data
 				break;
 			}
 			
 		}
+		if (recognised_address == 0)
+			printf("	not ID'ed\n");///print new line if address not ID'ed
 		state->ap_num++;
 		break;
 	case IWEVQUAL:///quality event
@@ -507,11 +903,11 @@ switch(event->cmd)
 		iw_print_stats(buffer, sizeof(buffer),&event->u.qual, iw_range, has_range);
 		printf("                    %s\n", buffer);
 		///file output
-		fprintf (fp[num_aps],"\n");
+		fprintf (fp[num_aps -1],"\n");
 		
 		///location update
 		
-		window.sliding_window[window.curPos].router[num_aps] = event->u.qual;///ap_num was incremented just before here)
+		window.sliding_window[window.curPos].router[num_aps -1] = event->u.qual;///ap_num was incremented just before here)
 		///TODO window.sliding_window[window.curPos].data[num_aps] = event;///ap_num was incremented just before here)
 		
 		//window.sliding_window[window.curPos].router[num_aps].level
@@ -519,7 +915,7 @@ switch(event->cmd)
 //		printf ("updated sliding window[%d].r; outer[%d].level = %d\n",window.curPos,num_aps,window.sliding_window[window.curPos].router[num_aps].level);
 		
 		
-		if (num_aps == no_routers - 1 )
+		if (num_aps  == no_routers  )
 		{
 			//window.sliding_window[window.curPos].
 		}
@@ -532,11 +928,187 @@ switch(event->cmd)
 		
 }
 
+/*
+* Print one element from the scanning results
+*/
+static inline void
+learn_signal_event(struct stream_descr *	stream,	/* Stream of events */
+											struct iw_event *		event,	/* Extracted token */
+											struct iwscan_state *	state,
+											struct iw_range *	iw_range,	/* Range info */
+											int		has_range)
+{
+	char		buffer[128];	/* Temporary buffer */
+	
+	struct timeval startTime;
+	gettimeofday(&startTime,NULL);
+	
+	switch(event->cmd)
+	{
+		case SIOCGIWAP:///which cell:
+			;
+			
+			
+			gettimeofday(&startTime,NULL);		
+			struct router tmp;
+			iw_saether_ntop(&event->u.ap_addr, tmp.mac);
+			
+			printf("          Cell %02d - Address: %s	", state->ap_num,
+			tmp.mac);
+			
+			///map routers to table
+			///1: check if router is part of the experiment, or just a stray
+			int i = 0;			
+			int recognised_address = 0;
+			for (i = 0 ; i < no_routers; i++ )
+			{///for each router, capture the signal at this coordinate location
+				if (strcmp(router_address_map[i].mac, tmp.mac) == 0)
+				{///the router is part of experiemnt, continue
+					printf("recognised: %s (num_aps = %d)\n",router_address_map[i].essid,num_aps);
+					recognised_address = 1;
+					
+					///open the file pointer for this router
+					char out_filename [69];
+					sprintf(out_filename, "../output/output_for_test_%d.csv" , test_num);
+					
+					fp[num_aps] = fopen(out_filename, "w");
+					///and write in the router details
+					fprintf(fp[num_aps], "%d, %s,", state->ap_num,iw_saether_ntop(&event->u.ap_addr, buffer));
+					num_aps ++;
+					
+					valid_quality_event = 1;///signal that the next quality event will be the capture of needed data
+					break;
+				}
+			}
+	if (recognised_address == 0)
+		printf("	not ID'ed\n");///print new line if address not ID'ed
+		state->ap_num++;
+	break;
+		case IWEVQUAL:///quality event
+			///check if the signal event is from a router in the experiment
+			if (valid_quality_event == 1)
+			{	
+				gettimeofday(&startTime,NULL);
+				//printf ("\n\nin qual event%d %d\n",startTime.tv_sec,startTime.tv_usec);  
+				iw_print_stats(buffer, sizeof(buffer),&event->u.qual, iw_range, has_range);
+				printf("                    %s\n", buffer);
+				///file output
+				fprintf (fp[num_aps -1],"\n");
+				
+				///location update
+				
+				window.sliding_window[window.curPos].router[num_aps -1] = event->u.qual;///ap_num was incremented just before here)
+				///TODO window.sliding_window[window.curPos].data[num_aps] = event;///ap_num was incremented just before here)
+				
+				//window.sliding_window[window.curPos].router[num_aps].level
+				//printf ("updated sliding window[%d] router[%d] \n",window.curPos,num_aps);
+				//		printf ("updated sliding window[%d].r; outer[%d].level = %d\n",window.curPos,num_aps,window.sliding_window[window.curPos].router[num_aps].level);
+				
+				valid_quality_event = 0;
+			}
+			
+			break;
+			
+}
+
+}
+
+/*
+* Print one element from the scanning results
+*/
+static inline void
+laern_function (struct stream_descr *	stream,	/* Stream of events */
+									struct iw_event *		event,	/* Extracted token */
+									struct iwscan_state *	state,
+									struct iw_range *	iw_range,	/* Range info */
+									int		has_range)
+									{
+										char		buffer[128];	/* Temporary buffer */
+										
+										struct timeval startTime;
+										gettimeofday(&startTime,NULL);
+										
+										switch(event->cmd)
+										{
+											case SIOCGIWAP:///which cell:
+												;
+												
+												
+												gettimeofday(&startTime,NULL);		
+												struct router tmp;
+												iw_saether_ntop(&event->u.ap_addr, tmp.mac);
+												
+												printf("          Cell %02d - Address: %s	", state->ap_num,
+												tmp.mac);
+												
+												///map routers to table
+												///1: check if router is part of the experiment, or just a stray
+												int i = 0;
+												
+												int recognised_address = 0;
+												for (i = 0 ; i < no_routers; i++ )
+												{
+													if (strcmp(router_address_map[i].mac, tmp.mac) == 0)
+													{///the router is part of experiemnt
+													printf("recognised: %s (num_aps = %d)\n",router_address_map[i].essid,num_aps);
+													recognised_address = 1;
+													///open the file pointer for this router
+													char out_filename [34];
+													sprintf(out_filename, "../output/output_for_router_%d.csv" , num_aps);
+													//if (fp[num_aps] == NULL)
+													fp[num_aps] = fopen(out_filename, "w");
+													///and write in the router details
+													fprintf(fp[num_aps], "%d,",1);//%s,", state->ap_num,iw_saether_ntop(&event->u.ap_addr, buffer));
+													num_aps ++;
+													
+													valid_quality_event = 1;///signal that the next quality event will be the capture of needed data
+													break;
+												}
+												
+										}
+										if (recognised_address == 0)
+											printf("	not ID'ed\n");///print new line if address not ID'ed
+											state->ap_num++;
+										break;
+											case IWEVQUAL:///quality event
+												///check if the signal event is from a router in the experiment
+												if (valid_quality_event == 1)
+												{	
+													gettimeofday(&startTime,NULL);
+													//printf ("\n\nin qual event%d %d\n",startTime.tv_sec,startTime.tv_usec);  
+													iw_print_stats(buffer, sizeof(buffer),&event->u.qual, iw_range, has_range);
+													printf("                    %s\n", buffer);
+													///file output
+													fprintf (fp[num_aps -1],"\n");
+													
+													///location update
+													
+													window.sliding_window[window.curPos].router[num_aps -1] = event->u.qual;///ap_num was incremented just before here)
+													///TODO window.sliding_window[window.curPos].data[num_aps] = event;///ap_num was incremented just before here)
+													
+													//window.sliding_window[window.curPos].router[num_aps].level
+													//printf ("updated sliding window[%d] router[%d] \n",window.curPos,num_aps);
+													//		printf ("updated sliding window[%d].r; outer[%d].level = %d\n",window.curPos,num_aps,window.sliding_window[window.curPos].router[num_aps].level);
+													
+													
+													if (num_aps  == no_routers  )
+													{
+														//window.sliding_window[window.curPos].
+													}
+													valid_quality_event = 0;
+												}
+												
+												break;
+												
+									}
+									
+									}
+
 /*------------------------------------------------------------------*/
 /*
  * Perform a scanning on one device
  */
-static int
+ int
 print_scanning_info(int		skfd,
 		    char *	ifname,
 		    char *	args[],		/* Command line args */
@@ -574,7 +1146,7 @@ print_scanning_info(int		skfd,
   /* Check if the interface could support scanning. */
   if((!has_range) || (range.we_version_compiled < 14))
     {
-      fprintf(stderr, "%-8.16s  Interface doesn't support scanning.\n\n",
+      fprintf(stderr, "%-8.16s  Interface doesn't support scanning prob here.\n\n",
 	      ifname);
       return(-1);
     }
@@ -664,7 +1236,7 @@ print_scanning_info(int		skfd,
 	{
 	  if((errno != EPERM) || (scanflags != 0))
 	    {
-	      fprintf(stderr, "%-8.16s  Interface doesn't support scanning : %s\n\n",
+	      fprintf(stderr, "%-8.16s  Interface doesn't support scanning or here : %s\n\n",
 		      ifname, strerror(errno));
 	      return(-1);
 	    }
@@ -810,8 +1382,278 @@ print_scanning_info(int		skfd,
 
   free(buffer);
   return(0);
-}//print_scanning_info
+}//
 
+////
+/*
+* initiate learning and tracking
+*/
+int
+connect_signals(int		skfd,
+										 char *	ifname,
+										 char *	args[],		/* Command line args */
+										 int		count)		/* Args count */
+{										 
+	printf("entered connect_signals\n");
+	struct iwreq		wrq;
+	struct iw_scan_req    scanopt;		/* Options for 'set' */
+	int			scanflags = 0;		/* Flags for scan */
+	
+	unsigned char *	buffer = NULL;		/* Results */
+	int			buflen = IW_SCAN_MAX_DATA; /* Min for compat WE<17 */
+	
+	struct iw_range	range;
+	int			has_range;
+	
+	struct timeval	tv;				/* Select timeout */
+	int			timeout = 15000000;		/* 15s */
+	
+	/* Avoid "Unused parameter" warning */
+	args = args; count = count;
+	
+	/* Debugging stuff */
+	if((IW_EV_LCP_PK2_LEN != IW_EV_LCP_PK_LEN) || (IW_EV_POINT_PK2_LEN != IW_EV_POINT_PK_LEN))
+	{
+		fprintf(stderr, "*** Please report to jt@hpl.hp.com your platform details\n");
+		fprintf(stderr, "*** and the following line :\n");
+		fprintf(stderr, "*** IW_EV_LCP_PK2_LEN = %zu ; IW_EV_POINT_PK2_LEN = %zu\n\n",
+						IW_EV_LCP_PK2_LEN, IW_EV_POINT_PK2_LEN);
+	}
+	
+	/* Get range stuff */
+	has_range = (iw_get_range_info(skfd, ifname, &range) >= 0);
+	
+	/* Check if the interface could support scanning. */
+	if((!has_range) || (range.we_version_compiled < 14))
+	{
+		fprintf(stderr, "%-8.16s  Interface doesn't support scanning.\n\n",
+						ifname);
+						return(-1);
+	}
+	
+	/* Init timeout value -> 250ms between set and first get */
+	tv.tv_sec = 0;
+	tv.tv_usec = 250000;
+	
+	/* Clean up set args */
+	memset(&scanopt, 0, sizeof(scanopt));
+	
+	/* Parse command line arguments and extract options.
+	* Note : when we have enough options, we should use the parser
+	* from iwconfig... */
+	while(count > 0)
+	{
+		/* One arg is consumed (the option name) */
+		count--;
+		
+		/*
+		* Check for Active Scan (scan with specific essid)
+		*/
+		if(!strncmp(args[0], "essid", 5))
+		{
+			if(count < 1)
+			{
+				fprintf(stderr, "Too few arguments for scanning option [%s]\n",
+								args[0]);
+								return(-1);
+			}
+			args++;
+			count--;
+			
+			/* Store the ESSID in the scan options */
+			scanopt.essid_len = strlen(args[0]);
+			memcpy(scanopt.essid, args[0], scanopt.essid_len);
+			/* Initialise BSSID as needed */
+			if(scanopt.bssid.sa_family == 0)
+			{
+				scanopt.bssid.sa_family = ARPHRD_ETHER;
+				memset(scanopt.bssid.sa_data, 0xff, ETH_ALEN);
+			}
+			/* Scan only this ESSID */
+			scanflags |= IW_SCAN_THIS_ESSID;
+		}
+			
+			/* Next arg */
+			args++;
+	}
+	
+	/* Check if we have scan options */
+	if(scanflags)
+	{
+		wrq.u.data.pointer = (caddr_t) &scanopt;
+		wrq.u.data.length = sizeof(scanopt);
+		wrq.u.data.flags = scanflags;
+	}
+	else
+	{
+		wrq.u.data.pointer = NULL;
+		wrq.u.data.flags = 0;
+		wrq.u.data.length = 0;
+	}
+	
+	/* If only 'last' was specified on command line, don't trigger a scan */
+	if(scanflags == IW_SCAN_HACK)
+	{
+		/* Skip waiting */
+		tv.tv_usec = 0;
+	}
+	else
+	{
+		/* Initiate Scanning */
+		if(iw_set_ext(skfd, ifname, SIOCSIWSCAN, &wrq) < 0)
+		{
+			if((errno != EPERM) || (scanflags != 0))
+			{
+				fprintf(stderr, "%-8.16s  Interface doesn't support scanning teer : %s\n\n",
+								ifname, strerror(errno));
+								return(-1);
+			}
+			/* If we don't have the permission to initiate the scan, we may
+			* still have permission to read left-over results.
+			* But, don't wait !!! */
+			#if 0
+			/* Not cool, it display for non wireless interfaces... */
+			fprintf(stderr, "%-8.16s  (Could not trigger scanning, just reading left-over results)\n", ifname);
+			#endif
+			tv.tv_usec = 0;
+		}
+	}
+	timeout -= tv.tv_usec;
+	
+	/* Forever */
+	while(1)
+	{
+		fd_set		rfds;		/* File descriptors for select */
+		int		last_fd;	/* Last fd */
+		int		ret;
+		
+		/* Guess what ? We must re-generate rfds each time */
+		FD_ZERO(&rfds);
+		last_fd = -1;
+		
+		/* In here, add the rtnetlink fd in the list */
+		
+		/* Wait until something happens */
+		ret = select(last_fd + 1, &rfds, NULL, NULL, &tv);
+		
+		/* Check if there was an error */
+		if(ret < 0)
+		{
+			if(errno == EAGAIN || errno == EINTR)
+				continue;
+			fprintf(stderr, "Unhandled signal - exiting...\n");
+			return(-1);
+		}
+		
+		/* Check if there was a timeout */
+		if(ret == 0)
+		{
+			unsigned char *	newbuf;
+			
+			realloc:
+			/* (Re)allocate the buffer - realloc(NULL, len) == malloc(len) */
+			newbuf = realloc(buffer, buflen);
+			if(newbuf == NULL)
+			{
+				if(buffer)
+					free(buffer);
+				fprintf(stderr, "%s: Allocation failed\n", __FUNCTION__);
+				return(-1);
+			}
+			buffer = newbuf;
+			
+			/* Try to read the results */
+			wrq.u.data.pointer = buffer;
+			wrq.u.data.flags = 0;
+			wrq.u.data.length = buflen;
+			if(iw_get_ext(skfd, ifname, SIOCGIWSCAN, &wrq) < 0)
+			{
+				/* Check if buffer was too small (WE-17 only) */
+				if((errno == E2BIG) && (range.we_version_compiled > 16))
+				{
+					/* Some driver may return very large scan results, either
+					* because there are many cells, or because they have many
+					* large elements in cells (like IWEVCUSTOM). Most will
+					* only need the regular sized buffer. We now use a dynamic
+					* allocation of the buffer to satisfy everybody. Of course,
+					* as we don't know in advance the size of the array, we try
+					* various increasing sizes. Jean II */
+					
+					/* Check if the driver gave us any hints. */
+					if(wrq.u.data.length > buflen)
+						buflen = wrq.u.data.length;
+					else
+						buflen *= 2;
+					
+					/* Try again */
+					goto realloc;
+				}
+				
+				/* Check if results not available yet */
+				if(errno == EAGAIN)
+				{
+					/* Restart timer for only 100ms*/
+					tv.tv_sec = 0;
+					tv.tv_usec = 100000;
+					timeout -= tv.tv_usec;
+					if(timeout > 0)
+						continue;	/* Try again later */
+				}
+				
+				/* Bad error */
+				free(buffer);
+				fprintf(stderr, "%-8.16s  Failed to read scan data : %s\n\n",
+								ifname, strerror(errno));
+								return(-2);
+			}
+			else
+				/* We have the results, go to process them */
+				break;
+		}
+		
+		/* In here, check if event and event type
+		* if scan event, read results. All errors bad & no reset timeout */
+	}
+	
+	if(wrq.u.data.length)
+	{
+		struct iw_event		iwe;
+		struct stream_descr	stream;
+		struct iwscan_state	state = { .ap_num = 1, .val_index = 0 };
+		int			ret;
+		
+		#ifdef DEBUG
+		/* Debugging code. In theory useless, because it's debugged ;-) */
+		int	i;
+		printf("Scan result %d [%02X", wrq.u.data.length, buffer[0]);
+		for(i = 1; i < wrq.u.data.length; i++)
+			printf(":%02X", buffer[i]);
+		printf("]\n");
+		#endif
+		printf("%-8.16s  Scan completed :\n", ifname);
+		iw_init_event_stream(&stream, (char *) buffer, wrq.u.data.length);
+		
+		do
+		{
+			/* Extract an event and print it */
+			ret = iw_extract_event_stream(&stream, &iwe,
+																		range.we_version_compiled);
+			if(ret > 0)
+				learn_signal_event(&stream, &iwe, &state,
+															&range, has_range);
+				
+		}
+		while(ret > 0);
+		printf("\n");
+	}
+	else
+		printf("%-8.16s  No scan results\n\n", ifname);
+	
+	free(buffer);
+	return(0);
+}//
+
+////
 /*********************** FREQUENCIES/CHANNELS ***********************/
 
 /*------------------------------------------------------------------*/
@@ -1991,6 +2833,8 @@ static const struct iwlist_entry iwlist_cmds[] = {
   { "encryption",	print_keys_info,	0, NULL },
   { "keys",		print_keys_info,	0, NULL },
   { "power",		print_pm_info,		0, NULL },
+	{ "learn",		learn_map,		2, NULL },
+	{ "track",		track,	2, "[essid NNN] [last]" },
 #ifndef WE_ESSENTIAL
   { "txpower",		print_txpower_info,	0, NULL },
   { "retry",		print_retry_info,	0, NULL },
@@ -2136,84 +2980,13 @@ main(int	argc,
       return -1;
     }
 		
-	///get from file the relivant routers 
-	FILE * router_list = fopen("../input/inputrouters.txt", "r");
-	if (router_list == NULL) {
-		printf( "Can't open input file router list!\n");
-	
-	}
-	char mac [18];
-	int xCo =0, yCo=0;
-	char essid[30];
-	printf("start of input file io\n");
-	
-	fscanf(router_list, "%d", &no_routers);
-	printf("no routers %d\n", no_routers);
-	int c =0;
-	while (fscanf(router_list, "%s %d	%d	%s", mac, &xCo, &yCo, essid) != EOF) {
-		
-		printf("captured router %d: %s\n", c, essid);
-		strcpy(router_address_map[c].mac , mac);
-		router_address_map[c].xCo = xCo;
-		router_address_map[c].yCo = yCo;
-		strcpy(router_address_map[c].essid ,essid);
-		c++;
-	}
-	fclose(router_list);
-	printf("end of router file io\n");
-	//router_list.
-	
-  /* do the actual work */
-	///init the time variables
-	struct timeval startTime;
-	struct timeval curTime;
-	gettimeofday(&startTime,NULL);
-	
-	///get data (i times)
-	int i;
-	for (i = 0 ; i < 10 ; i++)
-	{
-	///setup the window position - the token method will fill the window
-	window.curPos = i;
-
+	/* do the actual work */
   if (dev)
     (*iwcmd->fn)(skfd, dev, args, count);
   else
     iw_enum_devices(skfd, iwcmd->fn, args, count);
 
-	///signal data captured for the window item, now set the time for it
-	gettimeofday(&curTime,NULL);
-	curTimeUnit.tv_sec = curTime.tv_sec - startTime.tv_sec;
-	curTimeUnit.tv_usec = curTime.tv_usec - startTime.tv_usec;
 	
-	window.sliding_window[window.curPos].time = curTimeUnit;
-	printf(": %d %d\n",curTimeUnit.tv_sec, curTimeUnit.tv_usec);
-	
-	///now compare the data to the coordinate map: where is it?!
-	struct sig_coor_map_item location;
-	location = locate_signal (window.sliding_window[window.curPos]);
-	}
-	
-	///print out the window
-	i = 0;
-	while (i < 10)
-	{
-		printf( "time %d %d\n", window.sliding_window[i].time.tv_sec,window.sliding_window[i].time.tv_usec);
-		 int j = 0;
-		for (j = 0 ; j < 2 ; j++)
-		{
-			printf( "router %d: level %d \n", j, window.sliding_window[i].signal_strength[j]);
-		}
-		i++;
-	}
-	
-	///close all file buffers
-	i = 0;
-	while (fp[i] != NULL)	{
-		
-		fclose(fp[i++]);
-		printf("closed fp %d\n",i);
-	}
 
   iw_sockets_close(skfd);
 	
@@ -2225,10 +2998,10 @@ double distance (double Pr, double Pt, double Gt, double Gr, double delta)
 	return 1;//(1.0/2462000000.0)/()
 }
 	
-struct sig_coor_map_item locate_signal (struct location_time_stats input_signal)
+struct sig_coor_map_item * locate_signal (struct location_time_stats input_signal)
 {
 	
-	coor_count = 2;
+	//coor_count = 4;
 	int total_diff [coor_count];
 	///compare the signals to the database:
 	 int i = 0;
@@ -2237,15 +3010,16 @@ struct sig_coor_map_item locate_signal (struct location_time_stats input_signal)
 		total_diff [i] = 0; ///init the diff figure
 		
 		
-		///for each router, check how different the signal readings are
-		 int j = 0;
-		for (j = 0 ; j < no_routers ; j++)
-		{
-			///diff_2 = the square of the diff between located and coor signal strengths
-			int diff_2 = (input_signal.signal_strength[j] - sig_coor_map [i].signal_strength[j])*(input_signal.signal_strength[j] - sig_coor_map [i].signal_strength[j]);
-			total_diff [i] += diff_2;
-			
-		}
+			///for each router, check how different the signal readings are
+			int j = 0;
+			for (j = 0 ; j < no_routers ; j++)
+			{
+					///diff_2 = the square of the diff between located and coor signal strengths
+					int diff_2 = (input_signal.signal_strength[j] - sig_coor_map [i].signal_strength[j])*(input_signal.signal_strength[j] - sig_coor_map [i].signal_strength[j]);
+					total_diff [i] += diff_2;
+				
+			}
+		
 		printf("total diff for loc %d: %d\n", i ,total_diff[i]);
 		
 		
@@ -2255,9 +3029,9 @@ struct sig_coor_map_item locate_signal (struct location_time_stats input_signal)
 	 int k = 0 ;
 	for (k = 0 ; k < coor_count ; k++)
 	///NOTE this is 1stNN method.. could generalise to kNN
-		if (total_diff [k] < best_record_index)
-			best_record_index = total_diff [k];
-	
+		if (total_diff [k] <= total_diff [best_record_index])
+			best_record_index = k;
+	printf("come on here %d \n",best_record_index);
 	///return result
-	return sig_coor_map[k];
+	return &sig_coor_map[best_record_index];
 }
