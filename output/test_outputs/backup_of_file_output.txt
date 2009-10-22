@@ -1,0 +1,1989 @@
+Learning; 1
+time 3 -945895
+router 0: level -69 
+router 1: level -51 
+router 2: level -36 
+router 3: level -45 
+time 3 -694745
+router 0: level -69 
+router 1: level -51 
+router 2: level -36 
+router 3: level -45 
+time 3 -443575
+router 0: level -69 
+router 1: level -51 
+router 2: level -36 
+router 3: level -45 
+time 3 -192420
+router 0: level -69 
+router 1: level -51 
+router 2: level -36 
+router 3: level -45 
+time 4 -941264
+router 0: level -69 
+router 1: level -51 
+router 2: level -36 
+router 3: level -45 
+time 4 -690109
+router 0: level -69 
+router 1: level -51 
+router 2: level -36 
+router 3: level -45 
+time 4 -438952
+router 0: level -69 
+router 1: level -51 
+router 2: level -36 
+router 3: level -45 
+time 4 -187778
+router 0: level -69 
+router 1: level -51 
+router 2: level -36 
+router 3: level -45 
+time 5 -936633
+router 0: level -69 
+router 1: level -51 
+router 2: level -36 
+router 3: level -45 
+time 7 -882596
+router 0: level -61 
+router 1: level -49 
+router 2: level -37 
+router 3: level -45 
+Learning; 2
+time 2 154069
+router 0: level -46 
+router 1: level -54 
+router 2: level -33 
+router 3: level -35 
+time 3 -594812
+router 0: level -46 
+router 1: level -54 
+router 2: level -33 
+router 3: level -35 
+time 3 -343690
+router 0: level -46 
+router 1: level -54 
+router 2: level -33 
+router 3: level -35 
+time 3 -92594
+router 0: level -46 
+router 1: level -54 
+router 2: level -33 
+router 3: level -35 
+time 3 158537
+router 0: level -46 
+router 1: level -54 
+router 2: level -33 
+router 3: level -35 
+time 4 -590357
+router 0: level -46 
+router 1: level -54 
+router 2: level -33 
+router 3: level -35 
+time 4 -339246
+router 0: level -46 
+router 1: level -54 
+router 2: level -33 
+router 3: level -35 
+time 4 -88128
+router 0: level -46 
+router 1: level -54 
+router 2: level -33 
+router 3: level -35 
+time 4 162984
+router 0: level -46 
+router 1: level -54 
+router 2: level -33 
+router 3: level -35 
+time 7 -582854
+router 0: level -55 
+router 1: level -57 
+router 2: level -30 
+router 3: level -39 
+Learning; 3
+time 2 254181
+router 0: level -39 
+router 1: level -60 
+router 2: level -35 
+router 3: level -67 
+time 3 -494691
+router 0: level -39 
+router 1: level -60 
+router 2: level -35 
+router 3: level -67 
+time 3 -243567
+router 0: level -39 
+router 1: level -60 
+router 2: level -35 
+router 3: level -67 
+time 3 7540
+router 0: level -39 
+router 1: level -60 
+router 2: level -35 
+router 3: level -67 
+time 3 258659
+router 0: level -39 
+router 1: level -60 
+router 2: level -35 
+router 3: level -67 
+time 4 -490238
+router 0: level -39 
+router 1: level -60 
+router 2: level -35 
+router 3: level -67 
+time 4 -239137
+router 0: level -39 
+router 1: level -60 
+router 2: level -35 
+router 3: level -67 
+time 4 11980
+router 0: level -39 
+router 1: level -60 
+router 2: level -35 
+router 3: level -67 
+time 4 263089
+router 0: level -39 
+router 1: level -60 
+router 2: level -35 
+router 3: level -67 
+time 6 316851
+router 0: level -45 
+router 1: level -59 
+router 2: level -33 
+router 3: level -56 
+Learning; 4
+time 2 153985
+router 0: level -52 
+router 1: level -52 
+router 2: level -37 
+router 3: level -61 
+time 3 -594934
+router 0: level -52 
+router 1: level -52 
+router 2: level -37 
+router 3: level -61 
+time 3 -343884
+router 0: level -52 
+router 1: level -52 
+router 2: level -37 
+router 3: level -61 
+time 3 -92835
+router 0: level -52 
+router 1: level -52 
+router 2: level -37 
+router 3: level -61 
+time 3 158201
+router 0: level -52 
+router 1: level -52 
+router 2: level -37 
+router 3: level -61 
+time 4 -590720
+router 0: level -52 
+router 1: level -52 
+router 2: level -37 
+router 3: level -61 
+time 4 -339669
+router 0: level -52 
+router 1: level -52 
+router 2: level -37 
+router 3: level -61 
+time 4 -88626
+router 0: level -52 
+router 1: level -52 
+router 2: level -37 
+router 3: level -61 
+time 4 162416
+router 0: level -52 
+router 1: level -52 
+router 2: level -37 
+router 3: level -61 
+time 6 216236
+router 0: level -61 
+router 1: level -52 
+router 2: level -34 
+router 3: level -55 
+Learning; 5
+time 2 -46140
+router 0: level -39 
+router 1: level -64 
+router 2: level -51 
+router 3: level -45 
+time 2 204946
+router 0: level -39 
+router 1: level -64 
+router 2: level -51 
+router 3: level -45 
+time 3 -543952
+router 0: level -39 
+router 1: level -64 
+router 2: level -51 
+router 3: level -45 
+time 3 -292870
+router 0: level -39 
+router 1: level -64 
+router 2: level -51 
+router 3: level -45 
+time 3 -41781
+router 0: level -39 
+router 1: level -64 
+router 2: level -51 
+router 3: level -45 
+time 3 209307
+router 0: level -39 
+router 1: level -64 
+router 2: level -51 
+router 3: level -45 
+time 4 -539628
+router 0: level -39 
+router 1: level -64 
+router 2: level -51 
+router 3: level -45 
+time 4 -288549
+router 0: level -39 
+router 1: level -64 
+router 2: level -51 
+router 3: level -45 
+time 4 -37460
+router 0: level -39 
+router 1: level -64 
+router 2: level -51 
+router 3: level -45 
+time 6 116784
+router 0: level -38 
+router 1: level -50 
+router 2: level -48 
+router 3: level -45 
+Learning; 6
+time 2 254593
+router 0: level -49 
+router 1: level -52 
+router 2: level -30 
+router 3: level -51 
+time 2 505935
+router 0: level -49 
+router 1: level -52 
+router 2: level -30 
+router 3: level -51 
+time 2 757271
+router 0: level -49 
+router 1: level -52 
+router 2: level -30 
+router 3: level -51 
+time 3 8609
+router 0: level -49 
+router 1: level -52 
+router 2: level -30 
+router 3: level -51 
+time 3 259967
+router 0: level -49 
+router 1: level -52 
+router 2: level -30 
+router 3: level -51 
+time 3 511342
+router 0: level -49 
+router 1: level -52 
+router 2: level -30 
+router 3: level -51 
+time 3 762662
+router 0: level -49 
+router 1: level -52 
+router 2: level -30 
+router 3: level -51 
+time 4 13996
+router 0: level -49 
+router 1: level -52 
+router 2: level -30 
+router 3: level -51 
+time 4 265332
+router 0: level -49 
+router 1: level -52 
+router 2: level -30 
+router 3: level -51 
+time 6 319567
+router 0: level -51 
+router 1: level -52 
+router 2: level -35 
+router 3: level -62 
+Learning; 7
+time 2 154182
+router 0: level -62 
+router 1: level -54 
+router 2: level -38 
+router 3: level -49 
+time 3 -594570
+router 0: level -62 
+router 1: level -54 
+router 2: level -38 
+router 3: level -49 
+time 3 -343268
+router 0: level -62 
+router 1: level -54 
+router 2: level -38 
+router 3: level -49 
+time 3 -91961
+router 0: level -62 
+router 1: level -54 
+router 2: level -38 
+router 3: level -49 
+time 3 159288
+router 0: level -62 
+router 1: level -54 
+router 2: level -38 
+router 3: level -49 
+time 4 -589458
+router 0: level -62 
+router 1: level -54 
+router 2: level -38 
+router 3: level -49 
+time 4 -338198
+router 0: level -62 
+router 1: level -54 
+router 2: level -38 
+router 3: level -49 
+time 4 -86934
+router 0: level -62 
+router 1: level -54 
+router 2: level -38 
+router 3: level -49 
+time 4 164364
+router 0: level -62 
+router 1: level -54 
+router 2: level -38 
+router 3: level -49 
+time 7 -481139
+router 0: level -57 
+router 1: level -51 
+router 2: level -38 
+router 3: level -46 
+Learning; 8
+time 2 54060
+router 0: level -57 
+router 1: level -51 
+router 2: level -48 
+router 3: level -47 
+time 2 305366
+router 0: level -57 
+router 1: level -51 
+router 2: level -48 
+router 3: level -47 
+time 3 -443381
+router 0: level -57 
+router 1: level -51 
+router 2: level -48 
+router 3: level -47 
+time 3 -192099
+router 0: level -57 
+router 1: level -51 
+router 2: level -48 
+router 3: level -47 
+time 3 59180
+router 0: level -57 
+router 1: level -51 
+router 2: level -48 
+router 3: level -47 
+time 3 310474
+router 0: level -57 
+router 1: level -51 
+router 2: level -48 
+router 3: level -47 
+time 4 -438225
+router 0: level -57 
+router 1: level -51 
+router 2: level -48 
+router 3: level -47 
+time 4 -186915
+router 0: level -57 
+router 1: level -51 
+router 2: level -48 
+router 3: level -47 
+time 4 64359
+router 0: level -57 
+router 1: level -51 
+router 2: level -48 
+router 3: level -47 
+time 6 118329
+router 0: level -48 
+router 1: level -61 
+router 2: level -42 
+router 3: level -46 
+Learning; 9
+time 2 54119
+router 0: level -67 
+router 1: level -54 
+router 2: level -39 
+router 3: level -47 
+time 3 -694596
+router 0: level -67 
+router 1: level -54 
+router 2: level -39 
+router 3: level -47 
+time 3 -443315
+router 0: level -67 
+router 1: level -54 
+router 2: level -39 
+router 3: level -47 
+time 3 -192045
+router 0: level -67 
+router 1: level -54 
+router 2: level -39 
+router 3: level -47 
+time 3 59227
+router 0: level -67 
+router 1: level -54 
+router 2: level -39 
+router 3: level -47 
+time 4 -689492
+router 0: level -67 
+router 1: level -54 
+router 2: level -39 
+router 3: level -47 
+time 4 -438198
+router 0: level -67 
+router 1: level -54 
+router 2: level -39 
+router 3: level -47 
+time 4 -186931
+router 0: level -67 
+router 1: level -54 
+router 2: level -39 
+router 3: level -47 
+time 4 64352
+router 0: level -67 
+router 1: level -54 
+router 2: level -39 
+router 3: level -47 
+time 6 118408
+router 0: level -45 
+router 1: level -54 
+router 2: level -42 
+router 3: level -35 
+Learning; 10
+time 3 -845899
+router 0: level -49 
+router 1: level -57 
+router 2: level -48 
+router 3: level -58 
+time 3 -594713
+router 0: level -49 
+router 1: level -57 
+router 2: level -48 
+router 3: level -58 
+time 3 -343510
+router 0: level -49 
+router 1: level -57 
+router 2: level -48 
+router 3: level -58 
+time 3 -92329
+router 0: level -49 
+router 1: level -57 
+router 2: level -48 
+router 3: level -58 
+time 4 -841153
+router 0: level -49 
+router 1: level -57 
+router 2: level -48 
+router 3: level -58 
+time 4 -589978
+router 0: level -49 
+router 1: level -57 
+router 2: level -48 
+router 3: level -58 
+time 4 -338815
+router 0: level -49 
+router 1: level -57 
+router 2: level -48 
+router 3: level -58 
+time 4 -87625
+router 0: level -49 
+router 1: level -57 
+router 2: level -48 
+router 3: level -58 
+time 5 -836471
+router 0: level -49 
+router 1: level -57 
+router 2: level -48 
+router 3: level -58 
+time 7 -582304
+router 0: level -51 
+router 1: level -58 
+router 2: level -49 
+router 3: level -38 
+Learning; 11
+time 3 -846029
+router 0: level -61 
+router 1: level -63 
+router 2: level -60 
+router 3: level -45 
+time 3 -594966
+router 0: level -61 
+router 1: level -63 
+router 2: level -60 
+router 3: level -45 
+time 3 -343879
+router 0: level -61 
+router 1: level -63 
+router 2: level -60 
+router 3: level -45 
+time 3 -92826
+router 0: level -61 
+router 1: level -63 
+router 2: level -60 
+router 3: level -45 
+time 4 -841794
+router 0: level -61 
+router 1: level -63 
+router 2: level -60 
+router 3: level -45 
+time 4 -590701
+router 0: level -61 
+router 1: level -63 
+router 2: level -60 
+router 3: level -45 
+time 4 -339599
+router 0: level -61 
+router 1: level -63 
+router 2: level -60 
+router 3: level -45 
+time 4 -88542
+router 0: level -61 
+router 1: level -63 
+router 2: level -60 
+router 3: level -45 
+time 5 -837494
+router 0: level -61 
+router 1: level -63 
+router 2: level -60 
+router 3: level -45 
+time 7 -783604
+router 0: level -51 
+router 1: level -63 
+router 2: level -59 
+router 3: level -45 
+Learning; 12
+time 2 154315
+router 0: level -39 
+router 1: level -55 
+router 2: level -54 
+router 3: level -55 
+time 2 405411
+router 0: level -39 
+router 1: level -55 
+router 2: level -54 
+router 3: level -55 
+time 2 656542
+router 0: level -39 
+router 1: level -55 
+router 2: level -54 
+router 3: level -55 
+time 3 -92372
+router 0: level -39 
+router 1: level -55 
+router 2: level -54 
+router 3: level -55 
+time 3 158726
+router 0: level -39 
+router 1: level -55 
+router 2: level -54 
+router 3: level -55 
+time 3 409828
+router 0: level -39 
+router 1: level -55 
+router 2: level -54 
+router 3: level -55 
+time 3 660959
+router 0: level -39 
+router 1: level -55 
+router 2: level -54 
+router 3: level -55 
+time 4 -87948
+router 0: level -39 
+router 1: level -55 
+router 2: level -54 
+router 3: level -55 
+time 4 163136
+router 0: level -39 
+router 1: level -55 
+router 2: level -54 
+router 3: level -55 
+time 6 317243
+router 0: level -35 
+router 1: level -57 
+router 2: level -57 
+router 3: level -52 
+Learning; 13
+time 2 156296
+router 0: level -48 
+router 1: level -51 
+router 2: level -47 
+router 3: level -51 
+time 3 -592474
+router 0: level -48 
+router 1: level -51 
+router 2: level -47 
+router 3: level -51 
+time 3 -341186
+router 0: level -48 
+router 1: level -51 
+router 2: level -47 
+router 3: level -51 
+time 3 -89908
+router 0: level -48 
+router 1: level -51 
+router 2: level -47 
+router 3: level -51 
+time 3 161416
+router 0: level -48 
+router 1: level -51 
+router 2: level -47 
+router 3: level -51 
+time 4 -587251
+router 0: level -48 
+router 1: level -51 
+router 2: level -47 
+router 3: level -51 
+time 4 -335964
+router 0: level -48 
+router 1: level -51 
+router 2: level -47 
+router 3: level -51 
+time 4 -84722
+router 0: level -48 
+router 1: level -51 
+router 2: level -47 
+router 3: level -51 
+time 4 166573
+router 0: level -48 
+router 1: level -51 
+router 2: level -47 
+router 3: level -51 
+time 6 122342
+router 0: level -39 
+router 1: level -53 
+router 2: level -54 
+router 3: level -45 
+Learning; 14
+time 2 254344
+router 0: level -41 
+router 1: level -48 
+router 2: level -51 
+router 3: level -41 
+time 2 505505
+router 0: level -41 
+router 1: level -48 
+router 2: level -51 
+router 3: level -41 
+time 2 756639
+router 0: level -41 
+router 1: level -48 
+router 2: level -51 
+router 3: level -41 
+time 3 7774
+router 0: level -41 
+router 1: level -48 
+router 2: level -51 
+router 3: level -41 
+time 3 258909
+router 0: level -41 
+router 1: level -48 
+router 2: level -51 
+router 3: level -41 
+time 3 510073
+router 0: level -41 
+router 1: level -48 
+router 2: level -51 
+router 3: level -41 
+time 3 761207
+router 0: level -41 
+router 1: level -48 
+router 2: level -51 
+router 3: level -41 
+time 4 12343
+router 0: level -41 
+router 1: level -48 
+router 2: level -51 
+router 3: level -41 
+time 4 263481
+router 0: level -41 
+router 1: level -48 
+router 2: level -51 
+router 3: level -41 
+time 6 617942
+router 0: level -67 
+router 1: level -54 
+router 2: level -49 
+router 3: level -45 
+Learning; 15
+time 2 254179
+router 0: level -46 
+router 1: level -54 
+router 2: level -40 
+router 3: level -51 
+time 3 -494769
+router 0: level -46 
+router 1: level -54 
+router 2: level -40 
+router 3: level -51 
+time 3 -243726
+router 0: level -46 
+router 1: level -54 
+router 2: level -40 
+router 3: level -51 
+time 3 7318
+router 0: level -46 
+router 1: level -54 
+router 2: level -40 
+router 3: level -51 
+time 3 258368
+router 0: level -46 
+router 1: level -54 
+router 2: level -40 
+router 3: level -51 
+time 4 -490584
+router 0: level -46 
+router 1: level -54 
+router 2: level -40 
+router 3: level -51 
+time 4 -239535
+router 0: level -46 
+router 1: level -54 
+router 2: level -40 
+router 3: level -51 
+time 4 11512
+router 0: level -46 
+router 1: level -54 
+router 2: level -40 
+router 3: level -51 
+time 4 262567
+router 0: level -46 
+router 1: level -54 
+router 2: level -40 
+router 3: level -51 
+time 7 -383138
+router 0: level -45 
+router 1: level -47 
+router 2: level -55 
+router 3: level -41 
+Learning; 16
+time 2 254289
+router 0: level -52 
+router 1: level -52 
+router 2: level -36 
+router 3: level -44 
+time 2 505455
+router 0: level -52 
+router 1: level -52 
+router 2: level -36 
+router 3: level -44 
+time 2 756633
+router 0: level -52 
+router 1: level -52 
+router 2: level -36 
+router 3: level -44 
+time 3 7809
+router 0: level -52 
+router 1: level -52 
+router 2: level -36 
+router 3: level -44 
+time 3 259021
+router 0: level -52 
+router 1: level -52 
+router 2: level -36 
+router 3: level -44 
+time 3 510215
+router 0: level -52 
+router 1: level -52 
+router 2: level -36 
+router 3: level -44 
+time 3 761386
+router 0: level -52 
+router 1: level -52 
+router 2: level -36 
+router 3: level -44 
+time 4 12561
+router 0: level -52 
+router 1: level -52 
+router 2: level -36 
+router 3: level -44 
+time 4 263748
+router 0: level -52 
+router 1: level -52 
+router 2: level -36 
+router 3: level -44 
+time 6 518179
+router 0: level -55 
+router 1: level -52 
+router 2: level -36 
+router 3: level -48 
+Learning; 17
+time 2 354658
+router 0: level -45 
+router 1: level -52 
+router 2: level -45 
+router 3: level -47 
+time 3 -394103
+router 0: level -45 
+router 1: level -52 
+router 2: level -45 
+router 3: level -47 
+time 3 -142847
+router 0: level -45 
+router 1: level -52 
+router 2: level -45 
+router 3: level -47 
+time 3 108420
+router 0: level -45 
+router 1: level -52 
+router 2: level -45 
+router 3: level -47 
+time 3 359674
+router 0: level -45 
+router 1: level -52 
+router 2: level -45 
+router 3: level -47 
+time 4 -389060
+router 0: level -45 
+router 1: level -52 
+router 2: level -45 
+router 3: level -47 
+time 4 -137798
+router 0: level -45 
+router 1: level -52 
+router 2: level -45 
+router 3: level -47 
+time 4 113449
+router 0: level -45 
+router 1: level -52 
+router 2: level -45 
+router 3: level -47 
+time 4 364688
+router 0: level -45 
+router 1: level -52 
+router 2: level -45 
+router 3: level -47 
+time 7 -280791
+router 0: level -54 
+router 1: level -54 
+router 2: level -45 
+router 3: level -41 
+Learning; 18
+time 3 -745817
+router 0: level -55 
+router 1: level -48 
+router 2: level -49 
+router 3: level -51 
+time 3 -494694
+router 0: level -55 
+router 1: level -48 
+router 2: level -49 
+router 3: level -51 
+time 3 -243527
+router 0: level -55 
+router 1: level -48 
+router 2: level -49 
+router 3: level -51 
+time 3 7579
+router 0: level -55 
+router 1: level -48 
+router 2: level -49 
+router 3: level -51 
+time 4 -741303
+router 0: level -55 
+router 1: level -48 
+router 2: level -49 
+router 3: level -51 
+time 4 -490174
+router 0: level -55 
+router 1: level -48 
+router 2: level -49 
+router 3: level -51 
+time 4 -238950
+router 0: level -55 
+router 1: level -48 
+router 2: level -49 
+router 3: level -51 
+time 4 12150
+router 0: level -55 
+router 1: level -48 
+router 2: level -49 
+router 3: level -51 
+time 5 -736725
+router 0: level -55 
+router 1: level -48 
+router 2: level -49 
+router 3: level -51 
+time 7 -482650
+router 0: level -56 
+router 1: level -49 
+router 2: level -48 
+router 3: level -55 
+Learning; 19
+time 2 54765
+router 0: level -42 
+router 1: level -54 
+router 2: level -46 
+router 3: level -52 
+time 2 305911
+router 0: level -42 
+router 1: level -54 
+router 2: level -46 
+router 3: level -52 
+time 2 557087
+router 0: level -42 
+router 1: level -54 
+router 2: level -46 
+router 3: level -52 
+time 3 -191775
+router 0: level -42 
+router 1: level -54 
+router 2: level -46 
+router 3: level -52 
+time 3 59373
+router 0: level -42 
+router 1: level -54 
+router 2: level -46 
+router 3: level -52 
+time 3 310525
+router 0: level -42 
+router 1: level -54 
+router 2: level -46 
+router 3: level -52 
+time 3 561455
+router 0: level -42 
+router 1: level -54 
+router 2: level -46 
+router 3: level -52 
+time 4 -187403
+router 0: level -42 
+router 1: level -54 
+router 2: level -46 
+router 3: level -52 
+time 4 63774
+router 0: level -42 
+router 1: level -54 
+router 2: level -46 
+router 3: level -52 
+time 6 318141
+router 0: level -51 
+router 1: level -53 
+router 2: level -47 
+router 3: level -52 
+Learning; 20
+time 2 154197
+router 0: level -47 
+router 1: level -58 
+router 2: level -54 
+router 3: level -44 
+time 2 405278
+router 0: level -47 
+router 1: level -58 
+router 2: level -54 
+router 3: level -44 
+time 2 656365
+router 0: level -47 
+router 1: level -58 
+router 2: level -54 
+router 3: level -44 
+time 2 907478
+router 0: level -47 
+router 1: level -58 
+router 2: level -54 
+router 3: level -44 
+time 3 158574
+router 0: level -47 
+router 1: level -58 
+router 2: level -54 
+router 3: level -44 
+time 3 409678
+router 0: level -47 
+router 1: level -58 
+router 2: level -54 
+router 3: level -44 
+time 3 660771
+router 0: level -47 
+router 1: level -58 
+router 2: level -54 
+router 3: level -44 
+time 3 911883
+router 0: level -47 
+router 1: level -58 
+router 2: level -54 
+router 3: level -44 
+time 4 162989
+router 0: level -47 
+router 1: level -58 
+router 2: level -54 
+router 3: level -44 
+time 6 317091
+router 0: level -52 
+router 1: level -57 
+router 2: level -56 
+router 3: level -44 
+Learning; 21
+time 2 56489
+router 0: level -63 
+router 1: level -51 
+router 2: level -55 
+router 3: level -47 
+time 2 307906
+router 0: level -63 
+router 1: level -51 
+router 2: level -55 
+router 3: level -47 
+time 3 -440674
+router 0: level -63 
+router 1: level -51 
+router 2: level -55 
+router 3: level -47 
+time 3 -189245
+router 0: level -63 
+router 1: level -51 
+router 2: level -55 
+router 3: level -47 
+time 3 62150
+router 0: level -63 
+router 1: level -51 
+router 2: level -55 
+router 3: level -47 
+time 3 313566
+router 0: level -63 
+router 1: level -51 
+router 2: level -55 
+router 3: level -47 
+time 4 -434987
+router 0: level -63 
+router 1: level -51 
+router 2: level -55 
+router 3: level -47 
+time 4 -183627
+router 0: level -63 
+router 1: level -51 
+router 2: level -55 
+router 3: level -47 
+time 4 67787
+router 0: level -63 
+router 1: level -51 
+router 2: level -55 
+router 3: level -47 
+time 6 324169
+router 0: level -59 
+router 1: level -51 
+router 2: level -58 
+router 3: level -44 
+Learning; 22
+time 2 156977
+router 0: level -40 
+router 1: level -47 
+router 2: level -51 
+router 3: level -52 
+time 3 -591781
+router 0: level -40 
+router 1: level -47 
+router 2: level -51 
+router 3: level -52 
+time 3 -340412
+router 0: level -40 
+router 1: level -47 
+router 2: level -51 
+router 3: level -52 
+time 3 -89033
+router 0: level -40 
+router 1: level -47 
+router 2: level -51 
+router 3: level -52 
+time 3 162347
+router 0: level -40 
+router 1: level -47 
+router 2: level -51 
+router 3: level -52 
+time 4 -586338
+router 0: level -40 
+router 1: level -47 
+router 2: level -51 
+router 3: level -52 
+time 4 -334995
+router 0: level -40 
+router 1: level -47 
+router 2: level -51 
+router 3: level -52 
+time 4 -83631
+router 0: level -40 
+router 1: level -47 
+router 2: level -51 
+router 3: level -52 
+time 4 167767
+router 0: level -40 
+router 1: level -47 
+router 2: level -51 
+router 3: level -52 
+time 7 -574940
+router 0: level -36 
+router 1: level -49 
+router 2: level -47 
+router 3: level -52 
+Learning; 23
+time 2 156410
+router 0: level -46 
+router 1: level -51 
+router 2: level -44 
+router 3: level -67 
+time 2 407621
+router 0: level -46 
+router 1: level -51 
+router 2: level -44 
+router 3: level -67 
+time 2 658914
+router 0: level -46 
+router 1: level -51 
+router 2: level -44 
+router 3: level -67 
+time 3 -89778
+router 0: level -46 
+router 1: level -51 
+router 2: level -44 
+router 3: level -67 
+time 3 161497
+router 0: level -46 
+router 1: level -51 
+router 2: level -44 
+router 3: level -67 
+time 3 412803
+router 0: level -46 
+router 1: level -51 
+router 2: level -44 
+router 3: level -67 
+time 3 664092
+router 0: level -46 
+router 1: level -51 
+router 2: level -44 
+router 3: level -67 
+time 4 -84592
+router 0: level -46 
+router 1: level -51 
+router 2: level -44 
+router 3: level -67 
+time 4 166736
+router 0: level -46 
+router 1: level -51 
+router 2: level -44 
+router 3: level -67 
+time 6 222694
+router 0: level -45 
+router 1: level -51 
+router 2: level -46 
+router 3: level -69 
+Learning; 24
+time 2 56130
+router 0: level -49 
+router 1: level -48 
+router 2: level -46 
+router 3: level -55 
+time 3 -692387
+router 0: level -49 
+router 1: level -48 
+router 2: level -46 
+router 3: level -55 
+time 3 -441049
+router 0: level -49 
+router 1: level -48 
+router 2: level -46 
+router 3: level -55 
+time 3 -189595
+router 0: level -49 
+router 1: level -48 
+router 2: level -46 
+router 3: level -55 
+time 3 61784
+router 0: level -49 
+router 1: level -48 
+router 2: level -46 
+router 3: level -55 
+time 4 -686751
+router 0: level -49 
+router 1: level -48 
+router 2: level -46 
+router 3: level -55 
+time 4 -435293
+router 0: level -49 
+router 1: level -48 
+router 2: level -46 
+router 3: level -55 
+time 4 -183864
+router 0: level -49 
+router 1: level -48 
+router 2: level -46 
+router 3: level -55 
+time 4 67655
+router 0: level -49 
+router 1: level -48 
+router 2: level -46 
+router 3: level -55 
+time 6 123690
+router 0: level -48 
+router 1: level -51 
+router 2: level -41 
+router 3: level -54 
+Learning; 25
+time 2 -43619
+router 0: level -39 
+router 1: level -45 
+router 2: level -52 
+router 3: level -48 
+time 2 207708
+router 0: level -39 
+router 1: level -45 
+router 2: level -52 
+router 3: level -48 
+time 3 -541006
+router 0: level -39 
+router 1: level -45 
+router 2: level -52 
+router 3: level -48 
+time 3 -289673
+router 0: level -39 
+router 1: level -45 
+router 2: level -52 
+router 3: level -48 
+time 3 -38408
+router 0: level -39 
+router 1: level -45 
+router 2: level -52 
+router 3: level -48 
+time 3 212960
+router 0: level -39 
+router 1: level -45 
+router 2: level -52 
+router 3: level -48 
+time 4 -535708
+router 0: level -39 
+router 1: level -45 
+router 2: level -52 
+router 3: level -48 
+time 4 -284433
+router 0: level -39 
+router 1: level -45 
+router 2: level -52 
+router 3: level -48 
+time 4 -33095
+router 0: level -39 
+router 1: level -45 
+router 2: level -52 
+router 3: level -48 
+time 6 123995
+router 0: level -53 
+router 1: level -48 
+router 2: level -42 
+router 3: level -49 
+Learning; 26
+time 2 159925
+router 0: level -42 
+router 1: level -47 
+router 2: level -45 
+router 3: level -52 
+time 2 414049
+router 0: level -42 
+router 1: level -47 
+router 2: level -45 
+router 3: level -52 
+time 3 -334429
+router 0: level -42 
+router 1: level -47 
+router 2: level -45 
+router 3: level -52 
+time 3 -83158
+router 0: level -42 
+router 1: level -47 
+router 2: level -45 
+router 3: level -52 
+time 3 168155
+router 0: level -42 
+router 1: level -47 
+router 2: level -45 
+router 3: level -52 
+time 3 419442
+router 0: level -42 
+router 1: level -47 
+router 2: level -45 
+router 3: level -52 
+time 4 -329242
+router 0: level -42 
+router 1: level -47 
+router 2: level -45 
+router 3: level -52 
+time 4 -77932
+router 0: level -42 
+router 1: level -47 
+router 2: level -45 
+router 3: level -52 
+time 4 173417
+router 0: level -42 
+router 1: level -47 
+router 2: level -45 
+router 3: level -52 
+time 6 430628
+router 0: level -41 
+router 1: level -47 
+router 2: level -46 
+router 3: level -52 
+Learning; 27
+time 2 56654
+router 0: level -35 
+router 1: level -47 
+router 2: level -46 
+router 3: level -53 
+time 3 -692077
+router 0: level -35 
+router 1: level -47 
+router 2: level -46 
+router 3: level -53 
+time 3 -440813
+router 0: level -35 
+router 1: level -47 
+router 2: level -46 
+router 3: level -53 
+time 3 -189564
+router 0: level -35 
+router 1: level -47 
+router 2: level -46 
+router 3: level -53 
+time 3 61694
+router 0: level -35 
+router 1: level -47 
+router 2: level -46 
+router 3: level -53 
+time 6 -480742
+router 0: level -64 
+router 1: level -44 
+router 2: level -52 
+router 3: level -48 
+time 6 -229412
+router 0: level -64 
+router 1: level -44 
+router 2: level -52 
+router 3: level -48 
+time 6 21878
+router 0: level -64 
+router 1: level -44 
+router 2: level -52 
+router 3: level -48 
+time 6 273200
+router 0: level -64 
+router 1: level -44 
+router 2: level -52 
+router 3: level -48 
+time 7 -475400
+router 0: level -64 
+router 1: level -44 
+router 2: level -52 
+router 3: level -48 
+Learning; 28
+time 2 -144009
+router 0: level -38 
+router 1: level -60 
+router 2: level -46 
+router 3: level -46 
+time 3 -889107
+router 0: level -38 
+router 1: level -60 
+router 2: level -45 
+router 3: level -46 
+time 3 -631391
+router 0: level -38 
+router 1: level -60 
+router 2: level -45 
+router 3: level -46 
+time 3 -378557
+router 0: level -38 
+router 1: level -60 
+router 2: level -45 
+router 3: level -46 
+time 3 -127214
+router 0: level -38 
+router 1: level -60 
+router 2: level -50 
+router 3: level -46 
+time 4 -875896
+router 0: level -38 
+router 1: level -60 
+router 2: level -45 
+router 3: level -46 
+time 4 -624503
+router 0: level -38 
+router 1: level -60 
+router 2: level -45 
+router 3: level -46 
+time 4 -373220
+router 0: level -38 
+router 1: level -60 
+router 2: level -50 
+router 3: level -46 
+time 4 -121905
+router 0: level -38 
+router 1: level -60 
+router 2: level -45 
+router 3: level -46 
+time 6 -366712
+router 0: level -36 
+router 1: level -58 
+router 2: level -46 
+router 3: level -47 
+Learning; 29
+time 2 -244411
+router 0: level -36 
+router 1: level -54 
+router 2: level -40 
+router 3: level -51 
+time 2 6754
+router 0: level -36 
+router 1: level -54 
+router 2: level -40 
+router 3: level -51 
+time 2 257951
+router 0: level -36 
+router 1: level -54 
+router 2: level -51 
+router 3: level -51 
+time 2 509066
+router 0: level -36 
+router 1: level -54 
+router 2: level -41 
+router 3: level -51 
+time 3 -239769
+router 0: level -36 
+router 1: level -54 
+router 2: level -40 
+router 3: level -51 
+time 3 11413
+router 0: level -36 
+router 1: level -54 
+router 2: level -52 
+router 3: level -51 
+time 3 262582
+router 0: level -36 
+router 1: level -54 
+router 2: level -41 
+router 3: level -51 
+time 3 513748
+router 0: level -36 
+router 1: level -54 
+router 2: level -41 
+router 3: level -51 
+time 5 469872
+router 0: level -41 
+router 1: level -55 
+router 2: level -40 
+router 3: level -52 
+time 5 720989
+router 0: level -41 
+router 1: level -55 
+router 2: level -39 
+router 3: level -52 
+Learning; 30
+time 1 956477
+router 0: level -54 
+router 1: level -54 
+router 2: level -47 
+router 3: level -52 
+time 2 207894
+router 0: level -54 
+router 1: level -54 
+router 2: level -46 
+router 3: level -52 
+time 2 459329
+router 0: level -54 
+router 1: level -54 
+router 2: level -57 
+router 3: level -52 
+time 2 710680
+router 0: level -54 
+router 1: level -54 
+router 2: level -48 
+router 3: level -52 
+time 2 962048
+router 0: level -54 
+router 1: level -54 
+router 2: level -48 
+router 3: level -52 
+time 3 213445
+router 0: level -54 
+router 1: level -54 
+router 2: level -57 
+router 3: level -52 
+time 3 464843
+router 0: level -54 
+router 1: level -54 
+router 2: level -47 
+router 3: level -52 
+time 3 716235
+router 0: level -54 
+router 1: level -54 
+router 2: level -47 
+router 3: level -52 
+time 3 967636
+router 0: level -54 
+router 1: level -54 
+router 2: level -47 
+router 3: level -52 
+time 5 924054
+router 0: level -54 
+router 1: level -52 
+router 2: level -48 
+router 3: level -48 
+Learning; 31
+time 2 -146123
+router 0: level -54 
+router 1: level -47 
+router 2: level -45 
+router 3: level -46 
+time 2 104972
+router 0: level -54 
+router 1: level -47 
+router 2: level -51 
+router 3: level -46 
+time 2 356068
+router 0: level -54 
+router 1: level -47 
+router 2: level -45 
+router 3: level -46 
+time 3 -392853
+router 0: level -54 
+router 1: level -47 
+router 2: level -45 
+router 3: level -46 
+time 3 -141766
+router 0: level -54 
+router 1: level -47 
+router 2: level -50 
+router 3: level -46 
+time 3 109332
+router 0: level -54 
+router 1: level -47 
+router 2: level -45 
+router 3: level -46 
+time 3 360426
+router 0: level -54 
+router 1: level -47 
+router 2: level -45 
+router 3: level -46 
+time 4 -388483
+router 0: level -54 
+router 1: level -47 
+router 2: level -51 
+router 3: level -46 
+time 4 -137400
+router 0: level -54 
+router 1: level -47 
+router 2: level -45 
+router 3: level -46 
+time 6 -183475
+router 0: level -56 
+router 1: level -49 
+router 2: level -45 
+router 3: level -46 
+Learning; 32
+time 2 -346563
+router 0: level -51 
+router 1: level -56 
+router 2: level -47 
+router 3: level -44 
+time 2 -95428
+router 0: level -51 
+router 1: level -56 
+router 2: level -47 
+router 3: level -44 
+time 3 -844286
+router 0: level -51 
+router 1: level -56 
+router 2: level -51 
+router 3: level -44 
+time 3 -593131
+router 0: level -51 
+router 1: level -56 
+router 2: level -47 
+router 3: level -44 
+time 3 -341989
+router 0: level -51 
+router 1: level -56 
+router 2: level -51 
+router 3: level -44 
+time 3 -90851
+router 0: level -51 
+router 1: level -56 
+router 2: level -47 
+router 3: level -44 
+time 4 -839718
+router 0: level -51 
+router 1: level -56 
+router 2: level -48 
+router 3: level -44 
+time 4 -588593
+router 0: level -51 
+router 1: level -56 
+router 2: level -50 
+router 3: level -44 
+time 4 -337438
+router 0: level -51 
+router 1: level -56 
+router 2: level -48 
+router 3: level -44 
+time 6 -583933
+router 0: level -56 
+router 1: level -53 
+router 2: level -48 
+router 3: level -40 
+Learning; 33
+time 2 -146200
+router 0: level -70 
+router 1: level -49 
+router 2: level -45 
+router 3: level -32 
+time 3 -895078
+router 0: level -70 
+router 1: level -49 
+router 2: level -44 
+router 3: level -32 
+time 3 -643945
+router 0: level -70 
+router 1: level -49 
+router 2: level -45 
+router 3: level -32 
+time 3 -392805
+router 0: level -70 
+router 1: level -49 
+router 2: level -45 
+router 3: level -32 
+time 3 -141682
+router 0: level -70 
+router 1: level -49 
+router 2: level -45 
+router 3: level -32 
+time 4 -890528
+router 0: level -70 
+router 1: level -49 
+router 2: level -55 
+router 3: level -32 
+time 4 -639423
+router 0: level -70 
+router 1: level -49 
+router 2: level -45 
+router 3: level -32 
+time 4 -388304
+router 0: level -70 
+router 1: level -49 
+router 2: level -42 
+router 3: level -32 
+time 4 -137177
+router 0: level -70 
+router 1: level -49 
+router 2: level -42 
+router 3: level -32 
+time 6 -183414
+router 0: level -57 
+router 1: level -47 
+router 2: level -42 
+router 3: level -35 
+Learning; 34
+time 1 753827
+router 0: level -48 
+router 1: level -46 
+router 2: level -48 
+router 3: level -38 
+time 2 4802
+router 0: level -48 
+router 1: level -46 
+router 2: level -48 
+router 3: level -38 
+time 2 255778
+router 0: level -48 
+router 1: level -46 
+router 2: level -51 
+router 3: level -38 
+time 2 506772
+router 0: level -48 
+router 1: level -46 
+router 2: level -48 
+router 3: level -38 
+time 2 757790
+router 0: level -48 
+router 1: level -46 
+router 2: level -51 
+router 3: level -38 
+time 3 8782
+router 0: level -48 
+router 1: level -46 
+router 2: level -49 
+router 3: level -38 
+time 3 259775
+router 0: level -48 
+router 1: level -46 
+router 2: level -49 
+router 3: level -38 
+time 3 510761
+router 0: level -48 
+router 1: level -46 
+router 2: level -52 
+router 3: level -38 
+time 3 761776
+router 0: level -48 
+router 1: level -46 
+router 2: level -49 
+router 3: level -38 
+time 5 515175
+router 0: level -53 
+router 1: level -48 
+router 2: level -49 
+router 3: level -46 
+Learning; 35
+time 2 -246396
+router 0: level -46 
+router 1: level -55 
+router 2: level -45 
+router 3: level -48 
+time 2 4639
+router 0: level -46 
+router 1: level -55 
+router 2: level -45 
+router 3: level -48 
+time 2 255663
+router 0: level -46 
+router 1: level -55 
+router 2: level -49 
+router 3: level -48 
+time 2 506700
+router 0: level -46 
+router 1: level -55 
+router 2: level -44 
+router 3: level -48 
+time 3 -242272
+router 0: level -46 
+router 1: level -55 
+router 2: level -51 
+router 3: level -48 
+time 3 8763
+router 0: level -46 
+router 1: level -55 
+router 2: level -45 
+router 3: level -48 
+time 3 259818
+router 0: level -46 
+router 1: level -55 
+router 2: level -45 
+router 3: level -48 
+time 3 510850
+router 0: level -46 
+router 1: level -55 
+router 2: level -48 
+router 3: level -48 
+time 4 -238116
+router 0: level -46 
+router 1: level -55 
+router 2: level -46 
+router 3: level -48 
+time 6 -284267
+router 0: level -41 
+router 1: level -49 
+router 2: level -46 
+router 3: level -47 
+Learning; 36
+time 1 754959
+router 0: level -41 
+router 1: level -45 
+router 2: level -46 
+router 3: level -48 
+time 2 6171
+router 0: level -41 
+router 1: level -45 
+router 2: level -46 
+router 3: level -48 
+time 2 257421
+router 0: level -41 
+router 1: level -45 
+router 2: level -49 
+router 3: level -48 
+time 2 508625
+router 0: level -41 
+router 1: level -45 
+router 2: level -46 
+router 3: level -48 
+time 2 759883
+router 0: level -41 
+router 1: level -45 
+router 2: level -49 
+router 3: level -48 
+time 3 11149
+router 0: level -41 
+router 1: level -45 
+router 2: level -45 
+router 3: level -48 
+time 3 262376
+router 0: level -41 
+router 1: level -45 
+router 2: level -46 
+router 3: level -48 
+time 3 513631
+router 0: level -41 
+router 1: level -45 
+router 2: level -49 
+router 3: level -48 
+time 3 764878
+router 0: level -41 
+router 1: level -45 
+router 2: level -45 
+router 3: level -48 
+time 5 620142
+router 0: level -42 
+router 1: level -45 
+router 2: level -46 
+router 3: level -48 
+Learning; 37
+time 2 -44354
+router 0: level -41 
+router 1: level -51 
+router 2: level -40 
+router 3: level -64 
+time 2 206770
+router 0: level -41 
+router 1: level -51 
+router 2: level -51 
+router 3: level -64 
+time 3 -542144
+router 0: level -41 
+router 1: level -51 
+router 2: level -40 
+router 3: level -64 
+time 3 -291022
+router 0: level -41 
+router 1: level -51 
+router 2: level -40 
+router 3: level -64 
+time 3 -39903
+router 0: level -41 
+router 1: level -51 
+router 2: level -40 
+router 3: level -64 
+time 3 211224
+router 0: level -41 
+router 1: level -51 
+router 2: level -40 
+router 3: level -64 
+time 4 -537650
+router 0: level -41 
+router 1: level -51 
+router 2: level -41 
+router 3: level -64 
+time 4 -286494
+router 0: level -41 
+router 1: level -51 
+router 2: level -41 
+router 3: level -64 
+time 4 -35422
+router 0: level -41 
+router 1: level -51 
+router 2: level -41 
+router 3: level -64 
+time 6 -180191
+router 0: level -48 
+router 1: level -61 
+router 2: level -45 
+router 3: level -63 
+Learning; 39
+time 2 -146238
+router 0: level -48 
+router 1: level -52 
+router 2: level -49 
+router 3: level -54 
+time 2 104838
+router 0: level -48 
+router 1: level -52 
+router 2: level -48 
+router 3: level -54 
+time 3 -644077
+router 0: level -48 
+router 1: level -52 
+router 2: level -46 
+router 3: level -54 
+time 3 -393009
+router 0: level -48 
+router 1: level -52 
+router 2: level -46 
+router 3: level -54 
+time 3 -141884
+router 0: level -48 
+router 1: level -52 
+router 2: level -48 
+router 3: level -54 
+time 3 109187
+router 0: level -48 
+router 1: level -52 
+router 2: level -46 
+router 3: level -54 
+time 4 -639735
+router 0: level -48 
+router 1: level -52 
+router 2: level -46 
+router 3: level -54 
+time 4 -388672
+router 0: level -48 
+router 1: level -52 
+router 2: level -48 
+router 3: level -54 
+time 4 -137600
+router 0: level -48 
+router 1: level -52 
+router 2: level -46 
+router 3: level -54 
+time 6 -384100
+router 0: level -52 
+router 1: level -48 
+router 2: level -46 
+router 3: level -70 
+Learning; 40
+time 2 -246648
+router 0: level -52 
+router 1: level -63 
+router 2: level -48 
+router 3: level -61 
+time 2 4352
+router 0: level -52 
+router 1: level -63 
+router 2: level -48 
+router 3: level -61 
+time 3 -744658
+router 0: level -52 
+router 1: level -63 
+router 2: level -52 
+router 3: level -61 
+time 3 -493667
+router 0: level -52 
+router 1: level -63 
+router 2: level -48 
+router 3: level -61 
+time 3 -242635
+router 0: level -52 
+router 1: level -63 
+router 2: level -52 
+router 3: level -61 
+time 3 8363
+router 0: level -52 
+router 1: level -63 
+router 2: level -48 
+router 3: level -61 
+time 4 -740644
+router 0: level -52 
+router 1: level -63 
+router 2: level -48 
+router 3: level -61 
+time 4 -489625
+router 0: level -52 
+router 1: level -63 
+router 2: level -52 
+router 3: level -61 
+time 4 -238616
+router 0: level -52 
+router 1: level -63 
+router 2: level -47 
+router 3: level -61 
+time 6 -585496
+router 0: level -56 
+router 1: level -51 
+router 2: level -48 
+router 3: level -63 
